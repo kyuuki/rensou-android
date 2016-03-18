@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#90ee90">
+
+    <Button
+        android:id="@+id/postButton"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="5dp" 
+        android:contentDescription="ガールズルーム" />
+
+    <Button
+        android:id="@+id/post2Button"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="5dp" 
+        android:contentDescription="ガールズルーム" />
+    
+    <Button
+        android:id="@+id/post3Button"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="5dp" 
+        android:contentDescription="ガールズルーム" />
+</RelativeLayout>

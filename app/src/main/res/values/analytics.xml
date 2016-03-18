@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="https://schemas.android.com/tools"
+    tools:ignore="TypographyDashes">
+
+    <string name="ga_trackingId">UA-42175521-1</string>
+    <bool name="ga_autoActivityTracking">true</bool>
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+    
+    <!-- Activity の表示名 -->
+    <string name="jp.kyuuki.rensou.android.activity.MainActivity">Main</string>
+    <string name="jp.kyuuki.rensou.android.activity.PostResultActivity">PostResult</string>
+</resources>

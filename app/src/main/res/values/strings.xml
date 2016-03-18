@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Association Game</string>
+    <string name="action_ranking">Ranking</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_about">About This App</string>
+    <string name="action_license">About License</string>
+    <string name="action_request">Request / Bug report</string>
+    <string name="action_debug">Debug</string>
+    <string name="activity_result_title">Association Before</string>
+    <string name="activity_ranking_title">Favorite Ranking</string>
+    
+    <!-- 連想投稿画面 -->
+    <string name="post_rensou_reading">Loading &#8230;&#8230;&#8230;</string>
+    <string name="post_rensou_posting">Posting &#8230;&#8230;&#8230;</string>
+    <string name="post_rensou_related">What do you associate with?</string>
+    <string name="post_rensou_hist_input_rensou">Input associated word</string>
+    <string name="post_rensou_button_post">Post</string>
+    <string name="post_rensou_error_validate_keyword">Please input between 1 and 13 characters</string>
+    <string name="post_rensou_error_transaction">Someone might have posted before. Input other word</string>
+    
+    <!-- 連想一覧画面 -->
+    <string name="list_rensou_related">reminds you of</string>
+    <string name="list_rensou_like_count">%1$d</string>
+    <string name="list_rensou_like">Like</string>
+    
+    <!-- ランキング画面 -->
+    <string name="ranking_like_count">Like %1$d</string>
+
+    <!-- アプリ情報 など-->
+    <string name="how_to_play">How To Play\n\nThis app is a game to post association words about keywords.\nSmile for looking to others posts.\nDon\'t post swear words!</string>
+    <string name="license_infomation">This app uses the following libraries.\n\nVolley\nhttps://android.googlesource.com/platform/frameworks/volley/\nCopyright &#169; 2011 The Android Open Source Project\n\nApache Commons Lang\nhttp://commons.apache.org/proper/commons-lang/\nCopyright &#169; 2001–2013 The Apache Software Foundation. All Rights Reserved.</string>
+    <string name="request_email">kyuuki.japan+rensou@gmail.com</string>
+    <string name="request_subject">[Association Game] Request</string>
+    <string name="request_text">------\nApp Version: %1$s\nAndroid Version: %2$s\nDevice Name: %3$s\n------\n\n</string>
+    <string name="version">Version</string>
+
+    <!-- 共通エラーメッセージ -->
+    <string name="error_communication">Network error</string>
+
+    <!-- 共通文字列 -->
+    <string name="blank"></string>
+
+</resources>

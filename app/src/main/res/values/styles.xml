@@ -1,0 +1,91 @@
+<resources>
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <!-- iOS compatible theme -->
+    <style name="U1Theme" parent="AppTheme">
+    </style>
+
+    <style name="U1Theme.LatestKeywordLayoutStyle">
+        <item name="android:background">@drawable/top_bg</item>
+        <item name="android:layout_width">320dp</item>
+        <item name="android:layout_height">240dp</item>
+    </style>
+    <style name="U1Theme.LatestKeywordTextStyle">
+        <item name="android:paddingLeft">40dp</item>
+        <item name="android:paddingRight">80dp</item>
+    </style>
+    <style name="U1Theme.RelatedTextStyle">
+        <item name="android:background">@drawable/sub_text</item>
+    </style>
+    <style name="U1Theme.PostButtonStyle">
+        <item name="android:background">@drawable/button_submit_selector</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+    <style name="U1Theme.RowRensouLayoutStyle">
+        <item name="android:background">@drawable/rensou_cell_bg</item>
+        <item name="android:layout_height">120dp</item>
+        <item name="android:minHeight">120dp</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:paddingRight">40dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">15dp</item>
+    </style>
+    <style name="U1Theme.RowRankingLayoutStyle">
+        <item name="android:background">@drawable/ranking_cell_bg</item><!-- どうやっても背景画像が広がってしまう margin が効かない -->
+        <item name="android:layout_height">120dp</item>
+        <item name="android:minHeight">120dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+    </style>
+    
+    <!-- Classical theme -->
+    <style name="ClassicalTheme" parent="AppTheme">
+    </style>
+    <style name="ClassicalTheme.RelatedTextStyle">
+        <item name="android:text">@string/post_rensou_related</item>
+    </style>
+    <style name="ClassicalTheme.PostButtonStyle">
+        <item name="android:text">@string/post_rensou_button_post</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+    <style name="ClassicalTheme.RowRensouLayoutStyle">
+        <item name="android:layout_height">80dp</item>
+        <item name="android:minHeight">80dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
+    <style name="NormalActivityTheme" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@style/AnimationRight.Activity</item>
+    </style>
+    
+    <style name="AnimationRight.Activity" parent="android:Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_right_open_enter</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_right_open_exit</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_right_close_enter</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_right_close_exit</item>
+    </style>
+</resources>

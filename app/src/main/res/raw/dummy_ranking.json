@@ -1,0 +1,62 @@
+[
+  {
+    "keyword": "竹島",
+    "old_keyword": "独島",
+    "created_at": "2013-09-24T10:20:10Z",
+    "favorite": 17281
+  },
+  {
+    "keyword": "KARA",
+    "old_keyword": "少女時代",
+    "created_at": "2013-02-27T13:02:32Z",
+    "favorite": 9832
+  },
+  {
+    "keyword": "バナナ",
+    "old_keyword": "黄色",
+    "created_at": "2013-05-27T01:23:45Z",
+    "favorite": 9312
+  },
+  {
+    "keyword": "iPhone",
+    "old_keyword": "スマートフォン",
+    "created_at": "2013-03-27T13:55:59Z",
+    "favorite": 5021
+  },
+  {
+    "keyword": "ボスとその妾が隅っこで悪口",
+    "old_keyword": "解雇",
+    "created_at": "2013-02-27T23:30:20Z",
+    "favorite": 1232
+  },
+  {
+    "keyword": "ギュリ",
+    "old_keyword": "スンヨン",
+    "created_at": "2010-01-01T00:00:00Z",
+    "favorite": 1161
+  },
+  {
+    "keyword": "スンヨン",
+    "old_keyword": "ニコル",
+    "created_at": "2010-01-01T00:00:00Z",
+    "favorite": 231
+  },
+  {
+    "keyword": "ニコル",
+    "old_keyword": "ハラ",
+    "created_at": "2010-01-01T00:00:00Z",
+    "favorite": 221
+  },
+  {
+    "keyword": "ハラ",
+    "old_keyword": "ジヨン",
+    "created_at": "2010-01-01T00:00:00Z",
+    "favorite": 203
+  },
+  {
+    "keyword": "ウィトゲンシュタイン",
+    "old_keyword": "哲学",
+    "created_at": "2010-01-01T00:00:00Z",
+    "favorite": 98
+  }
+]
