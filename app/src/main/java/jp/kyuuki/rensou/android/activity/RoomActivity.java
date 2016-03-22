@@ -4,7 +4,6 @@ import jp.kyuuki.rensou.android.Config;
 import jp.kyuuki.rensou.android.R;
 import jp.kyuuki.rensou.android.common.Logger;
 import jp.kyuuki.rensou.android.fragment.DummyFragment;
-import jp.kyuuki.rensou.android.fragment.PostRensouFragment;
 import jp.kyuuki.rensou.android.fragment.RoomFragment;
 import jp.kyuuki.rensou.android.model.User;
 import jp.kyuuki.rensou.android.net.InitialData;
@@ -60,7 +59,7 @@ public class RoomActivity extends BaseActivity {
                 String message = null;
                 String apiBaseUrl = null;
                 if (data != null) {
-                    message = data.getMessege();
+                    message = data.getMessage();
                     apiBaseUrl = data.getApiBaseUrl();
                 }
 
@@ -177,7 +176,7 @@ public class RoomActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-    };
+    }
 
     String BUNDLE_KEY_STATE = "STATE";
 
@@ -187,7 +186,7 @@ public class RoomActivity extends BaseActivity {
 
         // http://qiita.com/amay077/items/097f54b7dee586fadc99
         outState.putInt(BUNDLE_KEY_STATE, state.ordinal());
-    };
+    }
 
     // http://d.hatena.ne.jp/junji_furuya0/20111028/1319783435
     // onRestoreInstanceState()は画面の回転以外では呼ばれない。らしい。
@@ -197,7 +196,7 @@ public class RoomActivity extends BaseActivity {
 
         int index = savedInstanceState.getInt(BUNDLE_KEY_STATE);
         this.state = State.values()[index];
-    };
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

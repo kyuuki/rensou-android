@@ -11,10 +11,10 @@ import org.json.JSONObject;
  */
 public class InitialData {
 
-    private static String KEY_MESAGE = "message";
+    private static String KEY_MESSAGE = "message";
     private static String KEY_API_BASE_URL = "api_base_url";
 
-    private String messege;     // メッセージがあったら出力する。何も考えずに毎回出力する (> 1.1.0)
+    private String message;     // メッセージがあったら出力する。何も考えずに毎回出力する (> 1.1.0)
     private String apiBaseUrl;  // API ベース URL を変更。トラブルがあった時用。 (> 1.1.0)
 
     private InitialData() {}
@@ -22,7 +22,7 @@ public class InitialData {
     // 作成できない (null が返る) 場合が可能性があるので注意  (現状ない)
     public static InitialData createInitialData(JSONObject o) {
         InitialData data = new InitialData();
-        data.setMessege(o.optString(KEY_MESAGE, null));
+        data.setMessage(o.optString(KEY_MESSAGE, null));
         data.setApiBaseUrl(o.optString(KEY_API_BASE_URL, null));
         return data;
     }
@@ -31,12 +31,12 @@ public class InitialData {
      * Setter/Getter *
      * ------------- */
 
-    public String getMessege() {
-        return messege;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMessege(String messege) {
-        this.messege = messege;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getApiBaseUrl() {

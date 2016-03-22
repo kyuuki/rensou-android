@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity {
                 String message = null;
                 String apiBaseUrl = null;
                 if (data != null) {
-                    message = data.getMessege();
+                    message = data.getMessage();
                     apiBaseUrl = data.getApiBaseUrl();
                 }
 
@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivity {
                 User user = User.getMyUser(activity);
                 if (user == null) {
                     activity.registerUser();
-                    transit(activity, REGISTORING_USER);
+                    transit(activity, REGISTERING_USER);
                 } else {
                     activity.startPostRensouFragment();
                     transit(activity, READY);
@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity {
             }
         },
 
-        REGISTORING_USER {
+        REGISTERING_USER {
             @Override
             public void successResistorUser(MainActivity activity, User user) {
                 user.saveMyUser(activity);  // 永続化
@@ -128,7 +128,7 @@ public class MainActivity extends BaseActivity {
             throw new IllegalStateException();
         }
 
-        public void failureResistorUser(MainActivity activity) {
+        public void failureResisterUser(MainActivity activity) {
             Logger.e("STATE", activity.state.toString());
             throw new IllegalStateException();
         }
@@ -177,7 +177,7 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-    };
+    }
 
     String BUNDLE_KEY_STATE = "STATE";
     
@@ -187,7 +187,7 @@ public class MainActivity extends BaseActivity {
         
         // http://qiita.com/amay077/items/097f54b7dee586fadc99
         outState.putInt(BUNDLE_KEY_STATE, state.ordinal());
-    };
+    }
 
     // http://d.hatena.ne.jp/junji_furuya0/20111028/1319783435
     // onRestoreInstanceState()は画面の回転以外では呼ばれない。らしい。
@@ -197,7 +197,7 @@ public class MainActivity extends BaseActivity {
         
         int index = savedInstanceState.getInt(BUNDLE_KEY_STATE);
         this.state = State.values()[index];
-    };
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
