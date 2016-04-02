@@ -8,12 +8,12 @@ android {
         applicationId "jp.kyuuki.rensou.android"
         minSdkVersion 9
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 13
+        versionName "1.1.4"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -22,6 +22,11 @@ android {
     packagingOptions {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
+    }
+
+    // http://kokufu.blogspot.jp/2014/10/androidstudio-missingtranslation.html
+    lintOptions {
+        disable 'MissingTranslation'
     }
 }
 
