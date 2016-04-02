@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
@@ -239,6 +240,12 @@ public class MainActivity extends BaseActivity {
                     state.failureGetInitialData(MainActivity.this);
                 }
             });
+
+        // タイムアウト時間の延ばす
+        // TODO: あとで共通化
+        int INITIAL_TIMEOUT_MS = 30000;
+        DefaultRetryPolicy policy = new DefaultRetryPolicy(INITIAL_TIMEOUT_MS, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        request.setRetryPolicy(policy);
 
         mRequestQueue.add(request);
     }

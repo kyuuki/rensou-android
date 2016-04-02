@@ -9,6 +9,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.widget.EditText;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+
 public final class Utils {
 
     private Utils() {}
