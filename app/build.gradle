@@ -11,6 +11,16 @@ android {
         versionCode 13
         versionName "1.1.4"
     }
+    productFlavors {
+        development {
+            applicationId 'jp.kyuuki.rensou.android.development'
+        }
+        staging {
+            applicationId 'jp.kyuuki.rensou.android.staging'
+        }
+        production {
+        }
+    }
     buildTypes {
         release {
             minifyEnabled true

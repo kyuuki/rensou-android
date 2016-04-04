@@ -3,13 +3,13 @@
     android:layout_height="match_parent"
     android:background="#90ee90">
 
-    <jp.kyuuki.rensou.android.view.OverScrollListView
+    <jp.kyuuki.rensou.android.views.OverScrollListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:divider="#00000000" >
-    </jp.kyuuki.rensou.android.view.OverScrollListView>
+    </jp.kyuuki.rensou.android.views.OverScrollListView>
 
 </RelativeLayout>
