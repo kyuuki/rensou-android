@@ -1,29 +1,5 @@
 package jp.kyuuki.rensou.android.adapters;
 
-import java.util.Date;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.Request.Method;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-
-import jp.kyuuki.rensou.android.R;
-import jp.kyuuki.rensou.android.commons.Logger;
-import jp.kyuuki.rensou.android.commons.RensouUtils;
-import jp.kyuuki.rensou.android.components.VolleyApi;
-import jp.kyuuki.rensou.android.models.MyLikes;
-import jp.kyuuki.rensou.android.models.Rensou;
-import jp.kyuuki.rensou.android.components.api.RensouApi;
-
 import android.content.Context;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -35,6 +11,23 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import java.util.Date;
+import java.util.List;
+
+import jp.kyuuki.rensou.android.R;
+import jp.kyuuki.rensou.android.commons.Logger;
+import jp.kyuuki.rensou.android.commons.RensouUtils;
+import jp.kyuuki.rensou.android.components.VolleyApiUtils;
+import jp.kyuuki.rensou.android.components.api.DeleteRensousLikeApi;
+import jp.kyuuki.rensou.android.components.api.PostRensousLikeApi;
+import jp.kyuuki.rensou.android.models.MyLikes;
+import jp.kyuuki.rensou.android.models.Rensou;
 
 public class RensouArrayAdapter extends ArrayAdapter<Rensou> {
     LayoutInflater mInflater;
@@ -141,16 +134,16 @@ public class RensouArrayAdapter extends ArrayAdapter<Rensou> {
                 MyLikes likes = MyLikes.getInstance(context);
                 if (likes.isLike(rensou.getId())) {
                     // いいね！取り消し
-                    String url = RensouApi.getPostUrlRensousLike(rensou.getId());
-                    RensousLikeListener listener = new RensousLikeListener(rensou, holder, false);
-                    StringRequest request = new StringRequest(Method.DELETE, url, listener, listener);
-                    VolleyApi.send(getContext(), request);
+                    final DeleteRensousLikeApi api = new DeleteRensousLikeApi(getContext(), rensou.getId());
+                    RensousLikeListener listener = new RensousLikeListener(rensou, holder, false);  // TODO: ちゃんと直す
+                    StringRequest request = VolleyApiUtils.createStringRequest(api, listener, listener);
+                    VolleyApiUtils.send(getContext(), request);
                 } else {
                     // いいね！
-                    String url = RensouApi.getDeleteUrlRensousLike(rensou.getId());
-                    RensousLikeListener listener = new RensousLikeListener(rensou, holder, true);
-                    StringRequest request = new StringRequest(Method.POST, url, listener, listener);
-                    VolleyApi.send(getContext(), request);
+                    final PostRensousLikeApi api = new PostRensousLikeApi(getContext(), rensou.getId());
+                    RensousLikeListener listener = new RensousLikeListener(rensou, holder, true);  // TODO: ちゃんと直す
+                    StringRequest request = VolleyApiUtils.createStringRequest(api, listener, listener);
+                    VolleyApiUtils.send(getContext(), request);
                 }
             }
         });

@@ -22,7 +22,8 @@ import org.json.JSONObject;
 import jp.kyuuki.rensou.android.R;
 import jp.kyuuki.rensou.android.commons.Logger;
 import jp.kyuuki.rensou.android.components.InitialData;
-import jp.kyuuki.rensou.android.components.VolleyApi;
+import jp.kyuuki.rensou.android.components.VolleyApiUtils;
+import jp.kyuuki.rensou.android.components.api.PostUserApi;
 import jp.kyuuki.rensou.android.components.api.RensouApi;
 import jp.kyuuki.rensou.android.fragments.DummyFragment;
 import jp.kyuuki.rensou.android.fragments.PostRensouFragment;
@@ -61,11 +62,8 @@ public class MainActivity extends BaseActivity {
                 if (data != null) {
                     message = data.getMessage();
                     apiBaseUrl = data.getApiBaseUrl();
-                }
 
-                // 初期データに API ベース URL が入っていたら、デフォルトを上書き。
-                if (apiBaseUrl != null) {
-                    RensouApi.BASE_URL = apiBaseUrl;
+                    data.save(activity);
                 }
 
                 if (message != null) {
@@ -238,32 +236,32 @@ public class MainActivity extends BaseActivity {
                 }
             });
 
-        VolleyApi.send(this, request);
+        VolleyApiUtils.send(this, request);
     }
 
     private void registerUser() {
-        String url = RensouApi.getPostUrlRegisterUser();
-        JSONObject json = RensouApi.makeRegisterUserJson();
+        final PostUserApi api = new PostUserApi(this);
 
-        JsonObjectRequest request = new JsonObjectRequest(Method.POST, url, json,
-            new Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    Logger.e("HTTP", "body is " + response.toString());
-                    User user = RensouApi.json2User(response);
-                    state.successResistorUser(MainActivity.this, user);
-                }
-            },
+        // Listener 使う時点で Volley 依存。
+        JsonObjectRequest request = VolleyApiUtils.createJsonObjectRequest(api,
+                new Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Logger.e("HTTP", "body is " + response.toString());
+                        User user = api.parseResponseBody(response);
+                        state.successResistorUser(MainActivity.this, user);
+                    }
+                },
 
-            new ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(MainActivity.this, getString(R.string.error_communication), Toast.LENGTH_LONG).show();
-                    // TODO: 通信エラーの時はどうする？
-                }
-            });
+                new ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MainActivity.this, getString(R.string.error_communication), Toast.LENGTH_LONG).show();
+                        // TODO: 通信エラーの時はどうする？
+                    }
+                });
 
-        VolleyApi.send(this, request);
+        VolleyApiUtils.send(this, request);
     }
     
     private void startPostRensouFragment() {

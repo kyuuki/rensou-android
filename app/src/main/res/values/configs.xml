@@ -4,10 +4,7 @@
     <string name="initial_data_url">https://s3-ap-northeast-1.amazonaws.com/kyuuki.jp/rensou.json</string>
 
     <!-- API -->
-    <string name="api_scheme">http</string>
-    <string name="api_encoded_authority">api.u1fukui.com</string>
-    <string name="api_path_base">rensou</string>
-
+    <string name="api_uri_base">http://api.u1fukui.com/rensou</string>
 
     <!-- GCM -->
     <string name="gcm_sender_id">857237989884</string>

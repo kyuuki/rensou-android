@@ -1,17 +1,5 @@
 package jp.kyuuki.rensou.android.activities;
 
-import jp.kyuuki.rensou.android.Config;
-import jp.kyuuki.rensou.android.R;
-import jp.kyuuki.rensou.android.commons.Logger;
-import jp.kyuuki.rensou.android.commons.VolleyUtils;
-import jp.kyuuki.rensou.android.fragments.DummyFragment;
-import jp.kyuuki.rensou.android.fragments.RoomFragment;
-import jp.kyuuki.rensou.android.models.User;
-import jp.kyuuki.rensou.android.components.InitialData;
-import jp.kyuuki.rensou.android.components.api.RensouApi;
-
-import org.json.JSONObject;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -21,14 +9,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import android.view.WindowManager.LayoutParams;
-import android.widget.Toast;
 
-import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+
+import jp.kyuuki.rensou.android.R;
+import jp.kyuuki.rensou.android.commons.Logger;
+import jp.kyuuki.rensou.android.commons.VolleyUtils;
+import jp.kyuuki.rensou.android.components.InitialData;
+import jp.kyuuki.rensou.android.fragments.DummyFragment;
+import jp.kyuuki.rensou.android.fragments.RoomFragment;
+import jp.kyuuki.rensou.android.models.User;
 
 /**
  * 部屋選択画面。
@@ -56,32 +46,7 @@ public class RoomActivity extends BaseActivity {
         GETTING_INITIAL_DATA {
             @Override
             public void successGetInitialData(RoomActivity activity, InitialData data) {
-                String message = null;
-                String apiBaseUrl = null;
-                if (data != null) {
-                    message = data.getMessage();
-                    apiBaseUrl = data.getApiBaseUrl();
-                }
-
-                // 初期データに API ベース URL が入っていたら、デフォルトを上書き。
-                if (apiBaseUrl != null) {
-                    RensouApi.BASE_URL = apiBaseUrl;
-                }
-
-                if (message != null) {
-                    // お知らせダイアログ表示
-                    InitialDialogFragment dailog = InitialDialogFragment.newInstance(activity.getString(R.string.app_name), message);
-                    dailog.show(activity.getSupportFragmentManager(), "dialog");
-                }
-
-                User user = User.getMyUser(activity);
-                if (user == null) {
-                    activity.registerUser();
-                    transit(activity, REGISTORING_USER);
-                } else {
-                    activity.startPostRensouFragment();
-                    transit(activity, READY);
-                }
+                // TODO
             }
 
             @Override
@@ -215,56 +180,11 @@ public class RoomActivity extends BaseActivity {
 
     // TODO: API 通信の抽象化
     private void getInitialData() {
-        String url = Config.INITIAL_DATA_URL;
-
-        JsonObjectRequest request = new JsonObjectRequest(Method.GET, url, "",
-
-            new Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    Logger.e("HTTP", "body is " + response.toString());
-
-                    InitialData data = InitialData.createInitialData(response);
-
-                    state.successGetInitialData(RoomActivity.this, data);
-                }
-            },
-
-            new ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Logger.e("HTTP", "error " + error.getMessage());
-
-                    state.failureGetInitialData(RoomActivity.this);
-                }
-            });
-
-        mRequestQueue.add(request);
+        // TODO
     }
 
     private void registerUser() {
-        String url = RensouApi.getPostUrlRegisterUser();
-        JSONObject json = RensouApi.makeRegisterUserJson();
-
-        JsonObjectRequest request = new JsonObjectRequest(Method.POST, url, json,
-            new Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    Logger.e("HTTP", "body is " + response.toString());
-                    User user = RensouApi.json2User(response);
-                    state.successResistorUser(RoomActivity.this, user);
-                }
-            },
-
-            new ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(RoomActivity.this, getString(R.string.error_communication), Toast.LENGTH_LONG).show();
-                    // TODO: 通信エラーの時はどうする？
-                }
-            });
-
-        mRequestQueue.add(request);
+        // TODO
     }
 
     private void startPostRensouFragment() {

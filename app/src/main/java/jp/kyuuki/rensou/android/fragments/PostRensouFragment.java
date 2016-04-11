@@ -1,21 +1,5 @@
 package jp.kyuuki.rensou.android.fragments;
 
-import java.util.ArrayList;
-import java.util.Locale;
-
-import jp.kyuuki.rensou.android.Analysis;
-import jp.kyuuki.rensou.android.R;
-import jp.kyuuki.rensou.android.activities.PostResultActivity;
-import jp.kyuuki.rensou.android.commons.Logger;
-import jp.kyuuki.rensou.android.commons.VolleyUtils;
-import jp.kyuuki.rensou.android.components.VolleyApi;
-import jp.kyuuki.rensou.android.models.Rensou;
-import jp.kyuuki.rensou.android.models.User;
-import jp.kyuuki.rensou.android.components.api.RensouApi;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,15 +13,31 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request.Method;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.analytics.tracking.android.EasyTracker;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import jp.kyuuki.rensou.android.Analysis;
+import jp.kyuuki.rensou.android.R;
+import jp.kyuuki.rensou.android.activities.PostResultActivity;
+import jp.kyuuki.rensou.android.commons.Logger;
+import jp.kyuuki.rensou.android.components.VolleyApiUtils;
+import jp.kyuuki.rensou.android.components.api.GetRensouApi;
+import jp.kyuuki.rensou.android.components.api.PostRensouApi;
+import jp.kyuuki.rensou.android.components.api.RensouApi;
+import jp.kyuuki.rensou.android.models.Rensou;
+import jp.kyuuki.rensou.android.models.User;
 
 /**
  * 連想投稿フラグメント。
@@ -75,71 +75,72 @@ public class PostRensouFragment extends Fragment {
         mAnswerButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                EasyTracker.getTracker().sendEvent(Analysis.GA_EC_UI_ACTION, Analysis.GA_EA_BUTTON_POST, null, null);
+                //EasyTracker.getTracker().sendEvent(Analysis.GA_EC_UI_ACTION, Analysis.GA_EA_BUTTON_POST, null, null);
                 
                 // 入力チェック
                 String keyword = mPostRensouEditText.getText().toString();
                 if (Rensou.validateKeyword(keyword) == false) {
-                    EasyTracker.getTracker().sendEvent(Analysis.GA_EC_ERROR, Analysis.GA_EA_POST_VALIDATE, null, null);
+                    //EasyTracker.getTracker().sendEvent(Analysis.GA_EC_ERROR, Analysis.GA_EA_POST_VALIDATE, null, null);
                     Toast.makeText(getActivity(), getString(R.string.post_rensou_error_validate_keyword), Toast.LENGTH_LONG).show();
                     return;
                 }
                 
-                String url = RensouApi.getPostUrl();
-                JSONObject json = RensouApi.makeRensouJson(mThemeId, keyword, User.getMyUser(getActivity()));
-                
+                final PostRensouApi api = new PostRensouApi(getContext(), User.getMyUser(getContext()).getId(), mThemeId, keyword);
+
                 progressDialog = new ProgressDialog(getActivity());
                 progressDialog.setMessage(getString(R.string.post_rensou_posting));
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressDialog.show();
 
-                JsonArrayRequest request = new JsonArrayRequest(Method.POST, url, json,
-                    new Listener<JSONArray>() {
-                        @Override
-                        public void onResponse(JSONArray response) {
-                            // タイミングによってはダイアログがない場合があるかも
-                            if (progressDialog != null) {
-                                progressDialog.dismiss();
+                JsonArrayRequest request = VolleyApiUtils.createJsonArrayRequest(api,
+                        new Listener<JSONArray>() {
+                            @Override
+                            public void onResponse(JSONArray response) {
+                                // タイミングによってはダイアログがない場合があるかも
+                                if (progressDialog != null) {
+                                    progressDialog.dismiss();
+                                }
+                                progressDialog = null;
+
+                                Logger.v("HTTP", "body is " + response);
+
+                                // TODO ArrayList 依存になってしまうけど、putExtra でやりとりするにはしたかがない？
+                                //List<Rensou> list = api.parseResponseBody(response);
+                                ArrayList<Rensou> list = (ArrayList<Rensou>) api.parseResponseBody(response);
+
+                                // DUMMY
+                                //try { list = Rensou.createDummyRensouList(getResources()); } catch (Exception e) {}
+
+                                Intent intent = new Intent(getActivity(), PostResultActivity.class);
+                                intent.putExtra("list", list);
+                                startActivity(intent);
                             }
-                            progressDialog = null;
+                        },
 
-                            Logger.v("HTTP", "body is " + response);
+                        new ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // タイミングによってはダイアログがない場合があるかも
+                                if (progressDialog != null) {
+                                    progressDialog.dismiss();
+                                }
+                                progressDialog = null;
 
-                            ArrayList<Rensou> list = RensouApi.json2Rensous(response);
-                            
-                            // DUMMY
-                            //try { list = Rensou.createDummyRensouList(getResources()); } catch (Exception e) {}
-
-                            Intent intent = new Intent(getActivity(), PostResultActivity.class);
-                            intent.putExtra("list", list);
-                            startActivity(intent);
+                                if (error.networkResponse != null && error.networkResponse.statusCode == 400) {
+                                    // 投稿が被った可能性が高い。
+                                    //EasyTracker.getTracker().sendEvent(Analysis.GA_EC_ERROR, Analysis.GA_EA_POST_CONFLICT, null, null);
+                                    Toast.makeText(getActivity(), getString(R.string.post_rensou_error_transaction), Toast.LENGTH_LONG).show();
+                                    mPostRensouEditText.setText("");
+                                    getLatestRensou();
+                                } else {
+                                    //EasyTracker.getTracker().sendEvent(Analysis.GA_EC_ERROR, Analysis.GA_EA_POST_ERROR, null, null);
+                                    Toast.makeText(getActivity(), getString(R.string.error_communication), Toast.LENGTH_LONG).show();
+                                }
+                            }
                         }
-                    },
-
-                    new ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            // タイミングによってはダイアログがない場合があるかも
-                            if (progressDialog != null) {
-                                progressDialog.dismiss();
-                            }
-                            progressDialog = null;
-                            
-                            if (error.networkResponse != null && error.networkResponse.statusCode == 400) {
-                                // 投稿が被った可能性が高い。
-                                EasyTracker.getTracker().sendEvent(Analysis.GA_EC_ERROR, Analysis.GA_EA_POST_CONFLICT, null, null);
-                                Toast.makeText(getActivity(), getString(R.string.post_rensou_error_transaction), Toast.LENGTH_LONG).show();
-                                mPostRensouEditText.setText("");
-                                getLatestRensou();
-                            } else {
-                                EasyTracker.getTracker().sendEvent(Analysis.GA_EC_ERROR, Analysis.GA_EA_POST_ERROR, null, null);
-                                Toast.makeText(getActivity(), getString(R.string.error_communication), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    }
                 );
 
-                VolleyApi.send(getActivity().getApplicationContext(), request);
+                VolleyApiUtils.send(getActivity().getApplicationContext(), request);
             }
         });
         
@@ -172,44 +173,44 @@ public class PostRensouFragment extends Fragment {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
-        String url = RensouApi.getGetUrlLast();
-        JsonObjectRequest request = new JsonObjectRequest(Method.GET, url,
-            new Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    // タイミングによってはダイアログがない場合があるようだ (1 回ヌルポで落ちた)
-                    if (progressDialog != null) {
-                        progressDialog.dismiss();
+        final GetRensouApi api = new GetRensouApi(getContext());
+        JsonObjectRequest request = VolleyApiUtils.createJsonObjectRequest(api,
+                new Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // タイミングによってはダイアログがない場合があるようだ (1 回ヌルポで落ちた)
+                        if (progressDialog != null) {
+                            progressDialog.dismiss();
+                        }
+                        progressDialog = null;
+
+                        Logger.e("HTTP", "body is " + response.toString());
+                        Rensou rensou = api.parseResponseBody(response);
+
+                        // DUMMY
+                        //rensou = Rensou.createDummyRensou(getResources(), rensou.getId());
+
+                        // TODO: mLastKeywordText が作成出来ていないパターンがある？
+                        mThemeId = rensou.getId();
+                        mLatestKeywordText.setText(rensou.getKeyword());
                     }
-                    progressDialog = null;
+                },
 
-                    Logger.e("HTTP", "body is " + response.toString());
-                    Rensou rensou = RensouApi.json2Rensou(response);
+                new ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // タイミングによってはダイアログがない場合があるかも
+                        if (progressDialog != null) {
+                            progressDialog.dismiss();
+                        }
+                        progressDialog = null;
 
-                    // DUMMY
-                    //rensou = Rensou.createDummyRensou(getResources(), rensou.getId());
-
-                    // TODO: mLastKeywordText が作成出来ていないパターンがある？
-                    mThemeId = rensou.getId();
-                    mLatestKeywordText.setText(rensou.getKeyword());
-                }
-            },
-
-            new ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    // タイミングによってはダイアログがない場合があるかも
-                    if (progressDialog != null) {
-                        progressDialog.dismiss();
+                        //EasyTracker.getTracker().sendEvent(Analysis.GA_EC_ERROR, Analysis.GA_EA_GET_LAST_KEYWORD, null, null);
+                        Toast.makeText(getActivity(), getString(R.string.error_communication), Toast.LENGTH_LONG).show();
+                        // TODO: 通信エラーの時はどうする？
                     }
-                    progressDialog = null;
+                });
 
-                    EasyTracker.getTracker().sendEvent(Analysis.GA_EC_ERROR, Analysis.GA_EA_GET_LAST_KEYWORD, null, null);
-                    Toast.makeText(getActivity(), getString(R.string.error_communication), Toast.LENGTH_LONG).show();
-                    // TODO: 通信エラーの時はどうする？
-                }
-            });
-
-        VolleyApi.send(getActivity().getApplicationContext(), request);
+        VolleyApiUtils.send(getActivity().getApplicationContext(), request);
     }
 }

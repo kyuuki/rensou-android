@@ -37,7 +37,7 @@ public abstract class BaseActivity extends FragmentActivity {
     public void onStart() {
         super.onStart();
         LoggerV("onStart()");
-        EasyTracker.getInstance().activityStart(this);
+        //EasyTracker.getInstance().activityStart(this);
     }
 
     @Override
@@ -50,7 +50,7 @@ public abstract class BaseActivity extends FragmentActivity {
     public void onStop() {
         super.onStart();
         LoggerV("onStop()");
-        EasyTracker.getInstance().activityStop(this);
+        //EasyTracker.getInstance().activityStop(this);
     }
     
     @Override
@@ -88,12 +88,12 @@ public abstract class BaseActivity extends FragmentActivity {
         switch (item.getItemId()) {
         case R.id.action_ranking:
             // ランキング画面
-            EasyTracker.getTracker().sendEvent(Analysis.GA_EC_UI_ACTION, Analysis.GA_EA_MENU_RANKING, null, null);
+            //EasyTracker.getTracker().sendEvent(Analysis.GA_EC_UI_ACTION, Analysis.GA_EA_MENU_RANKING, null, null);
             intent = new Intent(this, RankingActivity.class);
             startActivity(intent);
             return true;
         case R.id.action_about:
-            EasyTracker.getTracker().sendEvent(Analysis.GA_EC_UI_ACTION, Analysis.GA_EA_MENU_ABOUT, null, null);
+            //EasyTracker.getTracker().sendEvent(Analysis.GA_EC_UI_ACTION, Analysis.GA_EA_MENU_ABOUT, null, null);
             // 古いやり方らしい。
 //            AlertDialog.Builder ab = new AlertDialog.Builder(this);
 //            AlertDialog ad = ab.create();

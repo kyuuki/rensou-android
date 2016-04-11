@@ -1,17 +1,5 @@
 package jp.kyuuki.rensou.android.fragments;
 
-import java.util.List;
-
-import jp.kyuuki.rensou.android.R;
-import jp.kyuuki.rensou.android.adapters.RankingArrayAdapter;
-import jp.kyuuki.rensou.android.commons.Logger;
-import jp.kyuuki.rensou.android.components.VolleyApi;
-import jp.kyuuki.rensou.android.models.Rank;
-import jp.kyuuki.rensou.android.components.api.RensouApi;
-import jp.kyuuki.rensou.android.views.TouchChanger;
-
-import org.json.JSONArray;
-
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -20,18 +8,27 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.android.volley.Request.Method;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectArrayRequest;
+
+import org.json.JSONArray;
+
+import java.util.List;
+
+import jp.kyuuki.rensou.android.R;
+import jp.kyuuki.rensou.android.adapters.RankingArrayAdapter;
+import jp.kyuuki.rensou.android.commons.Logger;
+import jp.kyuuki.rensou.android.components.VolleyApiUtils;
+import jp.kyuuki.rensou.android.components.api.GetRensousRankingApi;
+import jp.kyuuki.rensou.android.models.Rank;
+import jp.kyuuki.rensou.android.views.TouchChanger;
 
 /**
  * ランキングリスト フラグメント。
@@ -59,12 +56,12 @@ public class RankingListFragment extends Fragment {
 
         if (mRankList == null) {
             // 受信時に View ができていない可能性はない？
-            String url = RensouApi.getGetUrlRensousRanking();
-            JsonArrayRequest request = new JsonArrayRequest(Method.GET, url,
+            final GetRensousRankingApi api = new GetRensousRankingApi(getContext());
+            JsonArrayRequest request = VolleyApiUtils.createJsonArrayRequest(api,
                     new PostUrlRensousRankingListener(),
                     new PostUrlRensousRankingListener());
 
-            VolleyApi.send(getActivity().getApplicationContext(), request);
+            VolleyApiUtils.send(getActivity().getApplicationContext(), request);
 
             progressDialog = ProgressDialogFragment.newInstance();
             progressDialog.show(getFragmentManager(), "dialog");  // TODO: 第 2 引数は？
@@ -101,7 +98,8 @@ public class RankingListFragment extends Fragment {
             
             Logger.v("HTTP", "body is " + response);
 
-            mRankList = RensouApi.json2Ranking(response);
+            // TODO
+            mRankList = GetRensousRankingApi.json2Ranking(response);
             // DUMMY
             //try { mRankList = Rank.createDummyRanking(getResources()); } catch (Exception e) {};
 

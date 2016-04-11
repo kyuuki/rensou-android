@@ -1,10 +1,17 @@
 package jp.kyuuki.rensou.android.components;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import org.json.JSONObject;
+
+import jp.kyuuki.rensou.android.Preference;
 
 /**
  * 初期データ。
- * 
+ *
+ * - API が死んでいても動くように。
+ * - API より信頼性が高いしくみを使う。
  * - 1.1.0 から導入した初期データをネットワークから取得するしくみ。
  * - 入口はできるだけ、シンプルなしくみにしておく。
  * - バージョン間の互換性をここに記述。
@@ -45,5 +52,20 @@ public class InitialData {
 
     public void setApiBaseUrl(String apiBaseUrl) {
         this.apiBaseUrl = apiBaseUrl;
+    }
+
+    public static String getApiBaseUrl(Context context) {
+        SharedPreferences settings = context.getSharedPreferences(Preference.NAME, Context.MODE_PRIVATE);
+        String apiBaseUrl = settings.getString(Preference.KEY_API_BASE_URL, null);
+
+        return apiBaseUrl;
+    }
+
+    public void save(Context context) {
+        SharedPreferences pref = context.getSharedPreferences(Preference.NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putString(Preference.KEY_MESSAGE, this.getMessage());
+        edit.putString(Preference.KEY_API_BASE_URL, this.getApiBaseUrl());
+        edit.commit();
     }
 }

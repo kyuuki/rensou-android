@@ -7,12 +7,17 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import android.util.Log;
 
+/**
+ * ロガー。
+ */
 public class Logger {
     private static final String TAG = Logger.class.getName();
 
     private static final int MAX_MESSAGE = 1000;
 
-    // Class
+    /*
+     * Class
+     */
 
     private static Logger instance;
 
@@ -52,12 +57,14 @@ public class Logger {
         return buffer.toString();
     }
 
-    // Object
+    /*
+     * Object
+     */
 
     private Queue<String> messages;
 
     private Logger() {
-        this.messages = new ConcurrentLinkedQueue<String>();
+        this.messages = new ConcurrentLinkedQueue<>();
     }
 
     private void add(String msg) {
