@@ -150,15 +150,23 @@ public class VolleyApiUtils {
     }
 
 
-    public static void Log(String tag, RensouApi api, JSONObject response) {
+    public static void log(String tag, RensouApi api, JSONObject response) {
         Logger.i(tag, "HTTP: [" + api.getClass().getSimpleName() + "] response = " + response.toString());
     }
 
-    public static void Log(String tag, RensouApi api, JSONArray response) {
+    public static void log(String tag, String name, JSONObject response) {
+        Logger.i(tag, "HTTP: [" + name + "] response = " + response.toString());
+    }
+
+    public static void log(String tag, RensouApi api, JSONArray response) {
         Logger.i(tag, "HTTP: [" + api.getClass().getSimpleName() + "] response = " + response.toString());
     }
 
-    public static void Log(String tag, RensouApi api, VolleyError error) {
+    public static void log(String tag, String name, JSONArray response) {
+        Logger.i(tag, "HTTP: [" + name + "] response = " + response.toString());
+    }
+
+    public static void log(String tag, RensouApi api, VolleyError error) {
         Logger.e(tag, "HTTP: [" + api.getClass().getSimpleName() + "] error.getMessage = " + error.getMessage());
         if (error.networkResponse != null) {
             Logger.e(tag, "HTTP: [" + api.getClass().getSimpleName() + "] statusCode = " + error.networkResponse.statusCode);
@@ -170,6 +178,22 @@ public class VolleyApiUtils {
                     Logger.e(tag, "Data is not String.");
                 }
                 Logger.e(tag, "HTTP: [" + api.getClass().getSimpleName() + "] data = " + data);
+            }
+        }
+    }
+
+    public static void log(String tag, String name, VolleyError error) {
+        Logger.e(tag, "HTTP: [" + name + "] error.getMessage = " + error.getMessage());
+        if (error.networkResponse != null) {
+            Logger.e(tag, "HTTP: [" + name + "] statusCode = " + error.networkResponse.statusCode);
+            if (error.networkResponse.data != null) {
+                String data = null;
+                try {
+                    data = new String(error.networkResponse.data, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    Logger.e(tag, "Data is not String.");
+                }
+                Logger.e(tag, "HTTP: [" + name + "] data = " + data);
             }
         }
     }

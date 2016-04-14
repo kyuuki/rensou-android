@@ -37,8 +37,11 @@ import jp.kyuuki.rensou.android.models.User;
  * - 初期データ取得
  * - ユーザー登録
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements InitialData.Callback {
+
     private static final String TAG = MainActivity.class.getName();
+    @Override
+    protected String getLogTag() { return TAG; }
 
     /*
      * 状態管理
@@ -49,7 +52,7 @@ public class MainActivity extends BaseActivity {
         INITIAL {
             @Override
             public void start(MainActivity activity) {
-                activity.getInitialData();
+                InitialData.getInitialData(activity, activity);
                 transit(activity, GETTING_INITIAL_DATA);
             }
         },
@@ -58,12 +61,8 @@ public class MainActivity extends BaseActivity {
             @Override
             public void successGetInitialData(MainActivity activity, InitialData data) {
                 String message = null;
-                String apiBaseUrl = null;
                 if (data != null) {
                     message = data.getMessage();
-                    apiBaseUrl = data.getApiBaseUrl();
-
-                    data.save(activity);
                 }
 
                 if (message != null) {
@@ -205,40 +204,6 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected String getLogTag() {
-        return TAG;
-    }
-    
-    // TODO: API 通信の抽象化
-    private void getInitialData() {
-        String url = this.getString(R.string.initial_data_url);
-
-        JsonObjectRequest request = new JsonObjectRequest(Method.GET, url,
-
-            new Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    Logger.e("HTTP", "body is " + response.toString());
-
-                    InitialData data = InitialData.createInitialData(response);
-
-                    state.successGetInitialData(MainActivity.this, data);
-                }
-            },
-
-            new ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Logger.e("HTTP", "error " + error.getMessage());
-
-                    state.failureGetInitialData(MainActivity.this);
-                }
-            });
-
-        VolleyApiUtils.send(this, request);
-    }
-
     private void registerUser() {
         final PostUserApi api = new PostUserApi(this);
 
@@ -265,7 +230,8 @@ public class MainActivity extends BaseActivity {
     }
     
     private void startPostRensouFragment() {
-        // TODO: 初期データ取得中に回転すると、ここで ava.lang.IllegalStateException: Activity has been destroyed とか言われて落ちる。
+        // TODO: 初期データ取得中に回転すると、ここで Java.lang.IllegalStateException: Activity has been destroyed とか言われて落ちる。
+        // 古いアクティビティの状態遷移が動いたままになっているのが原因だと思う。
         Fragment newFragment = new PostRensouFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.mainFragment, newFragment);
@@ -302,5 +268,19 @@ public class MainActivity extends BaseActivity {
                     }})
                 .create();  
         }  
-    } 
+    }
+
+    /*
+     * InitialData.Callback
+     */
+
+    @Override
+    public void onSuccessGetInitialData(InitialData initialData) {
+        state.successGetInitialData(MainActivity.this, initialData);
+    }
+
+    @Override
+    public void onErrorGetInitialData() {
+        state.failureGetInitialData(MainActivity.this);
+    }
 }

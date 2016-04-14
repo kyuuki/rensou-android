@@ -93,6 +93,7 @@ public class RankingListFragment extends Fragment {
 
         @Override
         public void onResponse(JSONArray response) {
+            // TODO: ランキング取得中に回転するとここでヌルポで落ちる。
             progressDialog.dismiss();
             progressDialog = null;
             
