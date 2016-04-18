@@ -18,24 +18,19 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.analytics.tracking.android.EasyTracker;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
-import jp.kyuuki.rensou.android.Analysis;
 import jp.kyuuki.rensou.android.R;
 import jp.kyuuki.rensou.android.activities.PostResultActivity;
 import jp.kyuuki.rensou.android.commons.Logger;
 import jp.kyuuki.rensou.android.components.VolleyApiUtils;
 import jp.kyuuki.rensou.android.components.api.GetRensouApi;
 import jp.kyuuki.rensou.android.components.api.PostRensouApi;
-import jp.kyuuki.rensou.android.components.api.RensouApi;
 import jp.kyuuki.rensou.android.models.Rensou;
 import jp.kyuuki.rensou.android.models.User;
 

@@ -11,20 +11,21 @@ import android.view.MenuItem;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Toast;
 
-import com.android.volley.Request.Method;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.json.JSONObject;
 
+import jp.kyuuki.rensou.android.AnalyticsApplication;
 import jp.kyuuki.rensou.android.R;
 import jp.kyuuki.rensou.android.commons.Logger;
 import jp.kyuuki.rensou.android.components.InitialData;
 import jp.kyuuki.rensou.android.components.VolleyApiUtils;
 import jp.kyuuki.rensou.android.components.api.PostUserApi;
-import jp.kyuuki.rensou.android.components.api.RensouApi;
 import jp.kyuuki.rensou.android.fragments.DummyFragment;
 import jp.kyuuki.rensou.android.fragments.PostRensouFragment;
 import jp.kyuuki.rensou.android.models.User;
@@ -43,12 +44,111 @@ public class MainActivity extends BaseActivity implements InitialData.Callback {
     @Override
     protected String getLogTag() { return TAG; }
 
+    String BUNDLE_KEY_STATE = "STATE";  // 状態保持に使用するキー
+
+
+    /*
+     * ライフサイクル
+     */
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // 自動でソフトキーボードが出るのを防ぐ。
+        // http://y-anz-m.blogspot.jp/2010/05/android_17.html
+        getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        setContentView(R.layout.activity_main);
+
+        // AdView をリソースとしてルックアップしてリクエストを読み込む。
+        // https://developers.google.com/mobile-ads-sdk/docs/android/banner_xml?hl=ja
+//        AdView adView = (AdView)this.findViewById(R.id.adView);
+//        AdRequest adRequest = new AdRequest();
+//        //adRequest.addTestDevice("6E5BC489C3B529363F063C3C74151BC7");
+//        adView.loadAd(adRequest);
+
+
+        // もっと、きれいにできそうな気がするけど。
+        if (savedInstanceState == null) {
+            // アプリ起動時のみ
+
+            // DummyFragment をレイアウトに記述しておくと、回転時に落ちる。
+            // http://y-anz-m.blogspot.jp/2012/04/android-fragment-fragmenttransaction.html
+            // 完全には理解できていないが「レイアウトから生成する Fragment は FragmentTransaction」に対象にしない。ということらしい。
+            Fragment newFragment = new DummyFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.mainFragment, newFragment);
+            ft.commit();
+
+            state.start(this);
+        } else {
+            // アプリ起動時以外 (回転とか)
+
+            // onSaveInstanceState で保存した状態の復旧
+            int index = savedInstanceState.getInt(BUNDLE_KEY_STATE);
+            state = State.values()[index];
+            Logger.d(TAG, "STATE: " + state);
+
+            if (state != State.READY) {
+                state = State.INITIAL;
+                state.start(this);
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        state.destroy(this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // http://qiita.com/amay077/items/097f54b7dee586fadc99
+        outState.putInt(BUNDLE_KEY_STATE, state.ordinal());
+    }
+
+    // http://d.hatena.ne.jp/junji_furuya0/20111028/1319783435
+    // onRestoreInstanceState()は画面の回転以外では呼ばれない。らしい。
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // ここでやるべきじゃないと思う。onCreate に移動した。
+//        int index = savedInstanceState.getInt(BUNDLE_KEY_STATE);
+//        this.state = State.values()[index];
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // 初期データが取得できるまでは何もしない。
+        if (state != State.READY) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
     /*
      * 状態管理
      * 
      * - 参考: http://idios.hatenablog.com/entry/2012/07/07/235137
      */
+
+    private State state = State.INITIAL;
+
     enum State {
+        // 初期状態
         INITIAL {
             @Override
             public void start(MainActivity activity) {
@@ -57,6 +157,7 @@ public class MainActivity extends BaseActivity implements InitialData.Callback {
             }
         },
 
+        // 初期データ取得中
         GETTING_INITIAL_DATA {
             @Override
             public void successGetInitialData(MainActivity activity, InitialData data) {
@@ -87,146 +188,113 @@ public class MainActivity extends BaseActivity implements InitialData.Callback {
                 activity.startPostRensouFragment();
                 transit(activity, READY);
             }
+
+            @Override
+            public void destroy(MainActivity activity) {
+                InitialData.cancelInitialData(activity);
+            }
         },
 
+        // ユーザー登録中
         REGISTERING_USER {
             @Override
-            public void successResistorUser(MainActivity activity, User user) {
+            public void successRegisterUser(MainActivity activity, User user) {
                 user.saveMyUser(activity);  // 永続化
 
                 activity.startPostRensouFragment();
                 transit(activity, READY);
             }
+
+            @Override
+            public void failureRegisterUser(MainActivity activity) {
+                // TODO: エラー処理
+                transit(activity, ERROR);
+            }
+
+            @Override
+            public void destroy(MainActivity activity) {
+                activity.postUserrequest.cancel();
+            }
         },
 
-        READY;
+        // 操作可能状態
+        READY,
 
-        private static void transit(MainActivity activity, State nextState) {
-            Logger.w("STATE", activity.state + " -> " + nextState);
-            activity.state = nextState;
-        }
+        // エラー状態
+        ERROR;
+
 
         public void start(MainActivity activity) {
-            Logger.e("STATE", activity.state.toString());
             throw new IllegalStateException();
         }
 
         public void successGetInitialData(MainActivity activity, InitialData data) {
-            Logger.e("STATE", activity.state.toString());
             throw new IllegalStateException();
         }
 
         public void failureGetInitialData(MainActivity activity) {
-            Logger.e("STATE", activity.state.toString());
             throw new IllegalStateException();
         }
 
-        public void successResistorUser(MainActivity activity, User user) {
-            Logger.e("STATE", activity.state.toString());
+        public void successRegisterUser(MainActivity activity, User user) {
             throw new IllegalStateException();
         }
 
-        public void failureResisterUser(MainActivity activity) {
-            Logger.e("STATE", activity.state.toString());
+        public void failureRegisterUser(MainActivity activity) {
             throw new IllegalStateException();
         }
-    }
 
-    private State state = State.INITIAL;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // 自動でソフトキーボードが出るのを防ぐ。
-        // http://y-anz-m.blogspot.jp/2010/05/android_17.html
-        getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN); 
-
-        setContentView(R.layout.activity_main);
-
-        // AdView をリソースとしてルックアップしてリクエストを読み込む。
-        // https://developers.google.com/mobile-ads-sdk/docs/android/banner_xml?hl=ja
-//        AdView adView = (AdView)this.findViewById(R.id.adView);
-//        AdRequest adRequest = new AdRequest();
-//        //adRequest.addTestDevice("6E5BC489C3B529363F063C3C74151BC7");
-//        adView.loadAd(adRequest);
-
-        // TODO: これが違う API に行っちゃう原因？
-        // 画面回転の時に下の処理を行いたくない。onRestoreInstanceState で状態を無理やり設定もしているので注意。
-        if (savedInstanceState == null) {
-            // アプリ起動時のみ
-
-            // DummyFragment をレイアウトに記述しておくと、回転時に落ちる。
-            // http://y-anz-m.blogspot.jp/2012/04/android-fragment-fragmenttransaction.html
-            // 完全には理解できていないが「レイアウトから生成する Fragment は FragmentTransaction」に対象にしない。ということらしい。
-            Fragment newFragment = new DummyFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.mainFragment, newFragment);
-            ft.commit();
-
-            state.start(this);
-        }
-    }
-    
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-    String BUNDLE_KEY_STATE = "STATE";
-    
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        
-        // http://qiita.com/amay077/items/097f54b7dee586fadc99
-        outState.putInt(BUNDLE_KEY_STATE, state.ordinal());
-    }
-
-    // http://d.hatena.ne.jp/junji_furuya0/20111028/1319783435
-    // onRestoreInstanceState()は画面の回転以外では呼ばれない。らしい。
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        
-        int index = savedInstanceState.getInt(BUNDLE_KEY_STATE);
-        this.state = State.values()[index];
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // 初期データが取得できるまでは何もしない。
-        if (state != State.READY) {
-            return true;
+        public void destroy(MainActivity activity) {
+            // 通信中でなければ何もしない。
         }
 
-        return super.onOptionsItemSelected(item);
+
+        /*
+         * 状態遷移 (State 内でのみ使用すること)
+         */
+        private static void transit(MainActivity activity, State nextState) {
+            Logger.d(TAG, "STATE: " + activity.state + " -> " + nextState);
+            activity.state = nextState;
+        }
     }
+
+
+    /**
+     * ユーザー登録。
+     */
+    // TODO: キャンセル処理 and 他のアプリと合わせる
+    JsonObjectRequest postUserrequest = null;
 
     private void registerUser() {
         final PostUserApi api = new PostUserApi(this);
 
         // Listener 使う時点で Volley 依存。
-        JsonObjectRequest request = VolleyApiUtils.createJsonObjectRequest(api,
+        postUserrequest = VolleyApiUtils.createJsonObjectRequest(api,
+
                 new Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Logger.e("HTTP", "body is " + response.toString());
+                        VolleyApiUtils.log(TAG, api, response);
+                        postUserrequest = null;
+
                         User user = api.parseResponseBody(response);
-                        state.successResistorUser(MainActivity.this, user);
+                        state.successRegisterUser(MainActivity.this, user);
                     }
                 },
 
                 new ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        VolleyApiUtils.log(TAG, api, error);
+                        postUserrequest = null;
+
                         Toast.makeText(MainActivity.this, getString(R.string.error_communication), Toast.LENGTH_LONG).show();
                         // TODO: 通信エラーの時はどうする？
+                        state.failureRegisterUser(MainActivity.this);
                     }
                 });
 
-        VolleyApiUtils.send(this, request);
+        VolleyApiUtils.send(this, postUserrequest);
     }
     
     private void startPostRensouFragment() {

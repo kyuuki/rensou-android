@@ -1,6 +1,6 @@
 package jp.kyuuki.rensou.android.activities;
 
-import jp.kyuuki.rensou.android.Analysis;
+import jp.kyuuki.rensou.android.AnalyticsApplication;
 import jp.kyuuki.rensou.android.R;
 import jp.kyuuki.rensou.android.commons.Logger;
 import jp.kyuuki.rensou.android.commons.Utils;
@@ -17,7 +17,8 @@ import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 /**
  * 全画面共通。
@@ -27,10 +28,16 @@ import com.google.analytics.tracking.android.EasyTracker;
 public abstract class BaseActivity extends FragmentActivity {
     private static final String TAG = BaseActivity.class.getName();
 
+    Tracker mTracker;
+
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LoggerV("onCreate()");
+
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
     }
     
     @Override
@@ -44,11 +51,14 @@ public abstract class BaseActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         LoggerV("onResume()");
+
+        mTracker.setScreenName(getLogTag());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     };
 
     @Override
     public void onStop() {
-        super.onStart();
+        super.onStop();
         LoggerV("onStop()");
         //EasyTracker.getInstance().activityStop(this);
     }
@@ -62,7 +72,7 @@ public abstract class BaseActivity extends FragmentActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        LoggerV("onSaveInstanceState()");
+        LoggerV("onRestoreInstanceState()");
     };
 
     @Override
