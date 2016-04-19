@@ -2,7 +2,7 @@ package jp.kyuuki.rensou.android.models;
 
 import java.util.HashSet;
 
-import jp.kyuuki.rensou.android.Preference;
+import jp.kyuuki.rensou.android.Preferences;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,9 +23,9 @@ public class MyLikes {
     private static MyLikes instance;  // メモリ不足の時に初期化されて null になる可能性あり
     
     private MyLikes(Context context) {
-        this.settings = context.getSharedPreferences(Preference.NAME, Context.MODE_PRIVATE);
+        this.settings = context.getSharedPreferences(Preferences.NAME, Context.MODE_PRIVATE);
         
-        String likesJson = this.settings.getString(Preference.KEY_MY_LIKES, null);
+        String likesJson = this.settings.getString(Preferences.KEY_MY_LIKES, null);
         if (likesJson == null) {
             likesJson = "[]";
         }
@@ -76,7 +76,7 @@ public class MyLikes {
         JSONArray array = new JSONArray(this.history);
         
         SharedPreferences.Editor edit = this.settings.edit();
-        edit.putString(Preference.KEY_MY_LIKES, array.toString());
+        edit.putString(Preferences.KEY_MY_LIKES, array.toString());
         edit.commit();
     }
 }

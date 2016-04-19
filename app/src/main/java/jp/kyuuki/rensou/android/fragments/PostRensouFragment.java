@@ -38,6 +38,9 @@ import jp.kyuuki.rensou.android.models.User;
  * 連想投稿フラグメント。
  */
 public class PostRensouFragment extends Fragment {
+
+    private static final String TAG = PostRensouFragment.class.getName();
+
     // Model
     private long mThemeId = -1;
 
@@ -173,13 +176,14 @@ public class PostRensouFragment extends Fragment {
                 new Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        VolleyApiUtils.log(TAG, api, response);
+
                         // タイミングによってはダイアログがない場合があるようだ (1 回ヌルポで落ちた)
                         if (progressDialog != null) {
                             progressDialog.dismiss();
                         }
                         progressDialog = null;
 
-                        Logger.e("HTTP", "body is " + response.toString());
                         Rensou rensou = api.parseResponseBody(response);
 
                         // DUMMY

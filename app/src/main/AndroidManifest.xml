@@ -9,7 +9,13 @@
         android:targetSdkVersion="17" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
+
+    <!-- GCM -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <permission android:name="jp.kyuuki.rensou.android.development.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <user-permission android:name="jp.kyuuki.rensou.android.development.permission.C2D_MESSAGE" />
+
     <application
         android:name="AnalyticsApplication"
         android:allowBackup="true"
@@ -48,6 +54,32 @@
         <!--  AdMob Ads SDK -->
         <activity android:name="com.google.ads.AdActivity"
               android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+
+        <!-- GCM -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.example.gcm" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="jp.kyuuki.rensou.android.services.RensouGcmListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="jp.kyuuki.rensou.android.services.RegistrationIntentService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

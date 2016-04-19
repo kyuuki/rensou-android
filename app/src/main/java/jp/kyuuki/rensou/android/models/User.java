@@ -1,6 +1,6 @@
 package jp.kyuuki.rensou.android.models;
 
-import jp.kyuuki.rensou.android.Preference;
+import jp.kyuuki.rensou.android.Preferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -20,8 +20,8 @@ public class User {
     }
 
     public static User getMyUser(Context context) {
-        SharedPreferences settings = context.getSharedPreferences(Preference.NAME, Context.MODE_PRIVATE);
-        long myUserId = settings.getLong(Preference.KEY_MY_USER_ID, -1);
+        SharedPreferences settings = context.getSharedPreferences(Preferences.NAME, Context.MODE_PRIVATE);
+        long myUserId = settings.getLong(Preferences.KEY_MY_USER_ID, -1);
         
         if (myUserId < 0) {
             return null;
@@ -31,9 +31,9 @@ public class User {
     }
     
     public void saveMyUser(Context context) {
-        SharedPreferences pref = context.getSharedPreferences(Preference.NAME, Context.MODE_PRIVATE);
+        SharedPreferences pref = context.getSharedPreferences(Preferences.NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
-        edit.putLong(Preference.KEY_MY_USER_ID, this.getId());
+        edit.putLong(Preferences.KEY_MY_USER_ID, this.getId());
         edit.commit();
     }
 }

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import jp.kyuuki.rensou.android.Preference;
+import jp.kyuuki.rensou.android.Preferences;
 import jp.kyuuki.rensou.android.R;
 import jp.kyuuki.rensou.android.commons.Logger;
 
@@ -79,25 +79,25 @@ public class InitialData {
      * ------ */
 
     private static void save(Context context, InitialData initialData) {
-        SharedPreferences pref = context.getSharedPreferences(Preference.NAME, Context.MODE_PRIVATE);
+        SharedPreferences pref = context.getSharedPreferences(Preferences.NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
-        edit.putString(Preference.KEY_MESSAGE, initialData.getMessage());
-        edit.putString(Preference.KEY_API_BASE_URL, initialData.getApiBaseUrl());
+        edit.putString(Preferences.KEY_MESSAGE, initialData.getMessage());
+        edit.putString(Preferences.KEY_API_BASE_URL, initialData.getApiBaseUrl());
         edit.commit();
     }
 
     private static void clear(Context context) {
-        SharedPreferences pref = context.getSharedPreferences(Preference.NAME, Context.MODE_PRIVATE);
+        SharedPreferences pref = context.getSharedPreferences(Preferences.NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
-        edit.remove(Preference.KEY_MESSAGE);
-        edit.remove(Preference.KEY_API_BASE_URL);
+        edit.remove(Preferences.KEY_MESSAGE);
+        edit.remove(Preferences.KEY_API_BASE_URL);
         edit.commit();
     }
 
     // オブジェクトには関係ないところで API ベース URL は取得する
     public static String getApiBaseUrl(Context context) {
-        SharedPreferences pref = context.getSharedPreferences(Preference.NAME, Context.MODE_PRIVATE);
-        String apiBaseUrl = pref.getString(Preference.KEY_API_BASE_URL, null);
+        SharedPreferences pref = context.getSharedPreferences(Preferences.NAME, Context.MODE_PRIVATE);
+        String apiBaseUrl = pref.getString(Preferences.KEY_API_BASE_URL, null);
 
         return apiBaseUrl;
     }

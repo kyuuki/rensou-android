@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 初期データ -->
-    <string name="initial_data_url">https://s3-ap-northeast-1.amazonaws.com/kyuuki.jp/rensou.json</string>
+    <!--<string name="initial_data_url">http://kyuuki.jp:3000/episodes</string>-->
 
     <!-- API -->
     <string name="api_uri_base">http://api.u1fukui.com/rensou</string>

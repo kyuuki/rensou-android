@@ -3,7 +3,10 @@ package jp.kyuuki.rensou.android.activities;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -21,6 +24,7 @@ import com.google.android.gms.analytics.Tracker;
 import org.json.JSONObject;
 
 import jp.kyuuki.rensou.android.AnalyticsApplication;
+import jp.kyuuki.rensou.android.Preferences;
 import jp.kyuuki.rensou.android.R;
 import jp.kyuuki.rensou.android.commons.Logger;
 import jp.kyuuki.rensou.android.components.InitialData;
@@ -29,6 +33,7 @@ import jp.kyuuki.rensou.android.components.api.PostUserApi;
 import jp.kyuuki.rensou.android.fragments.DummyFragment;
 import jp.kyuuki.rensou.android.fragments.PostRensouFragment;
 import jp.kyuuki.rensou.android.models.User;
+import jp.kyuuki.rensou.android.services.RegistrationIntentService;
 //import com.google.ads.AdRequest;
 //import com.google.ads.AdView;
 
@@ -177,6 +182,7 @@ public class MainActivity extends BaseActivity implements InitialData.Callback {
                     activity.registerUser();
                     transit(activity, REGISTERING_USER);
                 } else {
+                    activity.tryGcmRegistration();
                     activity.startPostRensouFragment();
                     transit(activity, READY);
                 }
@@ -185,6 +191,7 @@ public class MainActivity extends BaseActivity implements InitialData.Callback {
             @Override
             public void failureGetInitialData(MainActivity activity) {
                 // 初期データが取得できなくても、何もなかったかのようにふるまう
+                activity.tryGcmRegistration();
                 activity.startPostRensouFragment();
                 transit(activity, READY);
             }
@@ -201,6 +208,7 @@ public class MainActivity extends BaseActivity implements InitialData.Callback {
             public void successRegisterUser(MainActivity activity, User user) {
                 user.saveMyUser(activity);  // 永続化
 
+                activity.tryGcmRegistration();
                 activity.startPostRensouFragment();
                 transit(activity, READY);
             }
@@ -296,7 +304,16 @@ public class MainActivity extends BaseActivity implements InitialData.Callback {
 
         VolleyApiUtils.send(this, postUserrequest);
     }
-    
+
+    private void tryGcmRegistration() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPreferences.getBoolean(Preferences.SENT_TOKEN_TO_SERVER, false) == false) {
+            // ユーザー登録完了後に GCM の処理をやりっぱ。成功しても失敗しても気にしない。
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            this.startService(intent);
+        }
+    }
+
     private void startPostRensouFragment() {
         // TODO: 初期データ取得中に回転すると、ここで Java.lang.IllegalStateException: Activity has been destroyed とか言われて落ちる。
         // 古いアクティビティの状態遷移が動いたままになっているのが原因だと思う。
