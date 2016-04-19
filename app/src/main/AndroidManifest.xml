@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="jp.kyuuki.rensou.android"
-    android:versionCode="12"
-    android:versionName="1.1.3" >
+    package="jp.kyuuki.rensou.android">
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -14,7 +12,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <permission android:name="jp.kyuuki.rensou.android.development.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-    <user-permission android:name="jp.kyuuki.rensou.android.development.permission.C2D_MESSAGE" />
+    <uses-permission android:name="jp.kyuuki.rensou.android.development.permission.C2D_MESSAGE" />
 
     <application
         android:name="AnalyticsApplication"
