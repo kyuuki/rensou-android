@@ -18,12 +18,11 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.json.JSONObject;
 
-import jp.kyuuki.rensou.android.AnalyticsApplication;
 import jp.kyuuki.rensou.android.Preferences;
 import jp.kyuuki.rensou.android.R;
 import jp.kyuuki.rensou.android.commons.Logger;
@@ -34,8 +33,6 @@ import jp.kyuuki.rensou.android.fragments.DummyFragment;
 import jp.kyuuki.rensou.android.fragments.PostRensouFragment;
 import jp.kyuuki.rensou.android.models.User;
 import jp.kyuuki.rensou.android.services.RegistrationIntentService;
-//import com.google.ads.AdRequest;
-//import com.google.ads.AdView;
 
 /**
  * 投稿画面アクティビティ。
@@ -65,14 +62,6 @@ public class MainActivity extends BaseActivity implements InitialData.Callback {
         getWindow().setSoftInputMode(LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         setContentView(R.layout.activity_main);
-
-        // AdView をリソースとしてルックアップしてリクエストを読み込む。
-        // https://developers.google.com/mobile-ads-sdk/docs/android/banner_xml?hl=ja
-//        AdView adView = (AdView)this.findViewById(R.id.adView);
-//        AdRequest adRequest = new AdRequest();
-//        //adRequest.addTestDevice("6E5BC489C3B529363F063C3C74151BC7");
-//        adView.loadAd(adRequest);
-
 
         // もっと、きれいにできそうな気がするけど。
         if (savedInstanceState == null) {

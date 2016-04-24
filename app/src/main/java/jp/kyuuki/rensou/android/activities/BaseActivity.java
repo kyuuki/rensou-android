@@ -17,6 +17,8 @@ import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -54,7 +56,13 @@ public abstract class BaseActivity extends FragmentActivity {
 
         mTracker.setScreenName(getLogTag());
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-    };
+
+        // TODO: AdMob が入っていない Activity を考慮
+        // AdMob
+        AdView mAdView = (AdView) this.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+    }
 
     @Override
     public void onStop() {

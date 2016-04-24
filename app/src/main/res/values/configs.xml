@@ -8,4 +8,7 @@
 
     <!-- GCM -->
     <string name="gcm_sender_id">857237989884</string>
+
+    <!-- AdMob -->
+    <string name="banner_ad_unit_id">ca-app-pub-5396037533357593/4690387868</string>
 </resources>
