@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
@@ -47,11 +46,16 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     //compile 'com.google.android.gms:play-services:8.3.0'
     //compile 'com.google.android.gms:play-services-analytics:8.4.0'  // 8.3.0 と競合とか言うエラーが出るので 8.3 に。Android Studio 2.0 にあげれば解決するかも
-    compile 'com.google.android.gms:play-services-analytics:8.3.0'
-    compile "com.google.android.gms:play-services-gcm:8.3.0"
-    compile 'com.google.android.gms:play-services-ads:8.3.0'
+    compile 'com.google.android.gms:play-services:8.4.0'
+    compile 'com.google.android.gms:play-services-analytics:8.4.0'
+    compile "com.google.android.gms:play-services-gcm:8.4.0"
+    compile 'com.google.android.gms:play-services-ads:8.4.0'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'commons-io:commons-io:2.4'
     //compile 'commons-codec:commons-codec:1.10'
     compile 'com.mcxiaoke.volley:library:1.0.19'
+    // nend メディエーション用アダプター
+    compile 'net.nend.android:nend-adapter:1.2.4'
 }
+
+apply plugin: 'com.google.gms.google-services'

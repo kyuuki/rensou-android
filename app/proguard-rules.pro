@@ -21,4 +21,10 @@
 -dontwarn com.google.android.gms.**
 -dontwarn com.android.volley.toolbox.**
 
+# AdMob
+-keep public class com.google.android.gms.ads.** { public *; }
+-keep public class com.google.ads.** { public *; }
+
+# nend
 -keep class net.nend.android.** { *; }
+-keep public class com.google.ads.mediation.* { public *; }
