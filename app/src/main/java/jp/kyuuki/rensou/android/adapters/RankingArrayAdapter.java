@@ -68,12 +68,9 @@ public class RankingArrayAdapter extends ArrayAdapter<Rank> {
             rensouText.setText(Html.fromHtml(RensouUtils.rensouToHtml(rensou, getContext())));
 
             // 投稿日付
-            java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getContext());
-            java.text.DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(getContext());
-
             if (rensou.getCreatedAt() != null) {
                 Date d = rensou.getCreatedAt();
-                dateTimeText.setText(dateFormat.format(d) + " " + timeFormat.format(d));
+                dateTimeText.setText(RensouUtils.formatDateTime(d, getContext()));
             }
 
             // いいね！数

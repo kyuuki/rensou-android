@@ -82,33 +82,32 @@ abstract public class RensouApi<T1, T2, T3> {
     /*
      * 日付関係
      */
-    // http://www.adakoda.com/adakoda/2010/02/android-iso-8601-parse.html
-    static FastDateFormat fastDateFormat1 = DateFormatUtils.ISO_DATETIME_TIME_ZONE_FORMAT;  // yyyy-MM-dd'T'HH:mm:ssZZ
+    // commons に依存しない形に書き直した。
 
-    // 2010-02-27T13:00:00Z がパースできない。 2010-02-27T13:00:00+00:00 と同義っぽいんだけど。
-    // http://stackoverflow.com/questions/424522/how-can-i-recognize-the-zulu-time-zone-in-java-dateutils-parsedate
-    static FastDateFormat fastDateFormat2 = FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mm:ss'Z'");
-
-    // iOS 版サーバーからミリ秒がやってくるようになったのに対応
-    static FastDateFormat fastDateFormat3 = FastDateFormat.getInstance("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-
-    static String patterns[] = { fastDateFormat1.getPattern(), fastDateFormat2.getPattern(), fastDateFormat3.getPattern() };
+    // http://fits.hatenablog.com/entry/2014/04/27/124047 とおもったが X 使えない。
+    static String patterns[] = { "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", "yyyy-MM-dd'T'HH:mm:ss.SSSZ", "yyyy-MM-dd'T'HH:mm:ss'Z'", "yyyy-MM-dd'T'HH:mm:ssZ" };
+    // Rails で sqlite3 使っていて application.rb の timezone を Tokyo にすると Z ではなく +09:00 で送ってくる。
 
     // API 仕様変更されてもいいように、それなりの値を返してしまう。ただ、エラーはどこかで検知したい。
     public static Date parseDate(String s) {
-        Date d;
+        Date d = null;
 
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        dateFormatter.setTimeZone(TimeZone.getTimeZone("JST")); // TODO: 日本依存
-
-        try {
-            d = dateFormatter.parse(s);
-        } catch (ParseException e) {
-//            d = DateUtils.parseDate(s, patterns);
-//        } catch (DateParseException e) {
-            Logger.w(TAG, "parseDate error " + s);
-            d = null;
+        for (String pattern: patterns) {
+            SimpleDateFormat dateFormatter = new SimpleDateFormat(pattern);
+            dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));  // これで "2016-04-26T22:13:36.487+09:00" という形式できても Date にはちゃんとした値が入っているみたい。
+            try {
+                d = dateFormatter.parse(s);
+                break;
+            } catch (ParseException e) {
+                // TODO: 毎回、ここで例外発生させるのもコスト高そうだから、一度フォーマットわかったら順番変えちゃいたいな。
+                continue;
+            }
         }
-            return d;
+
+        if (d == null) {
+            Logger.w(TAG, "parseDate error " + s);
+        }
+
+        return d;
     }
 }

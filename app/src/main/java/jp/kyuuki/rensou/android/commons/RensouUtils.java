@@ -4,6 +4,9 @@ import jp.kyuuki.rensou.android.R;
 import jp.kyuuki.rensou.android.models.Rensou;
 import android.content.Context;
 
+import java.util.Date;
+import java.util.TimeZone;
+
 public final class RensouUtils {
 
     private RensouUtils() {}
@@ -24,5 +27,14 @@ public final class RensouUtils {
         buf.append("</font> ");
         
         return buf.toString();
+    }
+
+    public static String formatDateTime(Date d, Context context) {
+        java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(context);
+        dateFormat.setTimeZone(TimeZone.getDefault());
+        java.text.DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(context);
+        timeFormat.setTimeZone(TimeZone.getDefault());
+
+        return dateFormat.format(d) + " " + timeFormat.format(d);
     }
 }

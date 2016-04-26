@@ -105,12 +105,10 @@ public class RensouArrayAdapter extends ArrayAdapter<Rensou> {
         holder.rensouText.setText(Html.fromHtml(RensouUtils.rensouToHtml(rensou, context)));
 
         // 投稿日付
-        java.text.DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(context);  // TODO: 効率化
-        java.text.DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(context);  // TODO: 効率化
         if (rensou.getCreatedAt() != null) {
             //dateTimeText.setText(sdf.format(rensouHistory.getRensou().getCreatedAt()));
             Date d = rensou.getCreatedAt();
-            holder.dateTimeText.setText(dateFormat.format(d) + " " + timeFormat.format(d));
+            holder.dateTimeText.setText(RensouUtils.formatDateTime(d, context));
         }
 
         // いいね！状態
