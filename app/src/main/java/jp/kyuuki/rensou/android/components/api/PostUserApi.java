@@ -36,6 +36,8 @@ public class PostUserApi extends RensouApi<JSONObject, JSONObject, User> {
         builder.encodedAuthority(getApiAuthority());
         builder.path(getApiPathBase() + "/user");
 
+        builder.appendQueryParameter("app_id", this.appId);
+
         return builder.build();
     }
 

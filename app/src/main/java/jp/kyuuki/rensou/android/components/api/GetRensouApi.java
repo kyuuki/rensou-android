@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.Locale;
 
 import jp.kyuuki.rensou.android.models.Rensou;
 
@@ -39,6 +40,9 @@ public class GetRensouApi extends RensouApi<Void, JSONObject, Rensou> {
         builder.encodedAuthority(getApiAuthority());
         builder.path(getApiPathBase() + "/rensou.json");
 
+        builder.appendQueryParameter("app_id", this.appId);
+        String lang = Locale.getDefault().getLanguage();
+        builder.appendQueryParameter("lang", lang);
         builder.appendQueryParameter("room", String.valueOf(ROOM_TYPE));
 
         return builder.build();

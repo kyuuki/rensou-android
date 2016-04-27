@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Locale;
 
 import jp.kyuuki.rensou.android.models.Rensou;
 
@@ -43,6 +44,9 @@ public class PostRensousLikeApi extends RensouApi<Void, Void, Void> {
         builder.scheme(getApiScheme());
         builder.encodedAuthority(getApiAuthority());
         builder.path(getApiPathBase() + "/rensous/" + id + "/like");
+
+        String lang = Locale.getDefault().getLanguage();
+        builder.appendQueryParameter("lang", lang);
 
         return builder.build();
     }

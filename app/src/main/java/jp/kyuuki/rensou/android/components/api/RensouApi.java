@@ -30,10 +30,14 @@ abstract public class RensouApi<T1, T2, T3> {
 
     public enum Method { GET, POST, PUT, DELETE, HEAD, OPTIONS, TRACE, PATCH }
 
+    protected String appId = null;
+
     // iOS 版サーバーの部屋対応 (1: 学生ルーム, 2: 社会人ルーム, 3: ガールズルーム, 4: おたくルーム, 5: 秘密の部屋)
     protected final static int ROOM_TYPE = 3;
 
     RensouApi(Context context) {
+        appId = context.getString(R.string.app_id);
+
         if (cacheApiScheme == null || cacheApiAuthority == null || cacheApiPathBase == null) {
             setApiBase(context);
         }

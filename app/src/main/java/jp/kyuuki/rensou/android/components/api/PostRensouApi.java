@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import jp.kyuuki.rensou.android.models.Rensou;
 
@@ -56,6 +57,10 @@ public class PostRensouApi extends RensouApi<JSONObject, JSONArray, List<Rensou>
         builder.scheme(getApiScheme());
         builder.encodedAuthority(getApiAuthority());
         builder.path(getApiPathBase() + "/rensou.json");
+
+        builder.appendQueryParameter("app_id", this.appId);
+        String lang = Locale.getDefault().getLanguage();
+        builder.appendQueryParameter("lang", lang);
 
         return builder.build();
     }
