@@ -90,4 +90,38 @@
         <item name="android:activityCloseEnterAnimation">@anim/activity_right_close_enter</item>
         <item name="android:activityCloseExitAnimation">@anim/activity_right_close_exit</item>
     </style>
+
+    <!-- 使わない部分レイアウトに記述してあるスタイルも定義しておかないとダメみたい -->
+    <!-- 連想一覧画面 -->
+    <style name="RowRensouLayoutStyle">
+        <item name="android:background">@drawable/bg_latest_keyword_shape</item>-->
+        <item name="android:minHeight">80dp</item>
+        <item name="android:layout_height">120dp</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <style name="KeywordTextStyle">
+        <item name="android:textColor">@color/theme300</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="LikeButtonStyle">
+        <item name="android:src">@drawable/button_submit_shape</item>
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:text">@string/list_rensou_like</item>
+    </style>
+
+    <!-- ランキング一覧 -->
+    <style name="RowRankingLayoutStyle">
+        <item name="android:layout_height">120dp</item>
+        <item name="android:minHeight">80dp</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <style name="RankingTextStyle">
+        <item name="android:textColor">@color/theme300</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 </resources>
