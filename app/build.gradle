@@ -8,8 +8,8 @@ android {
         applicationId "jp.kyuuki.rensou.android"
         minSdkVersion 9
         targetSdkVersion 23
-        versionCode 15
-        versionName "1.1.6"
+        versionCode 16
+        versionName "1.1.7"
     }
     productFlavors {
         // 連想げーむ
