@@ -12,6 +12,7 @@ android {
         versionName "1.1.6"
     }
     productFlavors {
+        // 連想げーむ
         development {
             applicationId 'jp.kyuuki.rensou.android.development'
         }
@@ -19,6 +20,11 @@ android {
             applicationId 'jp.kyuuki.rensou.android.staging'
         }
         production {
+        }
+
+        // しりとりげーむ
+        shiritori {
+            applicationId 'jp.kyuuki.shiritori.android'
         }
     }
     buildTypes {

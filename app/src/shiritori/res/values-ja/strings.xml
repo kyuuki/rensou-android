@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">しりとりげーむ</string>
+
+    <string name="activity_result_title">これまでのしりとり</string>
+    <string name="activity_ranking_title">人気ランキング</string>
+
+    <!-- 連想投稿画面 -->
+    <string name="post_rensou_related">といったら・・・？</string>
+    <string name="post_rensou_hist_input_rensou">つづく言葉を入力</string>
+    <string name="post_rensou_button_post">投稿</string>
+    <string name="post_rensou_error_validate_keyword">1 ～ 13 文字で入力してください</string>
+    <string name="post_rensou_error_transaction">すでに他の人が投稿している可能性があります。再度、入力してください</string>
+    
+    <!-- 連想一覧画面 -->
+    <string name="list_rensou_related">といえば</string>
+    <string name="list_rensou_like_count">%1$d 件</string>
+    <string name="list_rensou_like">いいね！</string>
+    
+    <!-- ランキング画面 -->
+    <string name="ranking_like_count">いいね！%1$d 件</string>
+
+    <!-- アプリ情報 など-->
+    <string name="how_to_play">遊び方\n\nキーワードに続くことばを投稿して遊ぶゲームです。\n他の人が投稿したしりとりワードとのつながりを見てニヤニヤしましょう。\n変な言葉は投稿しないようにね！</string>
+    <string name="license_infomation">このアプリでは、以下のライブラリを使用しています。\n\nVolley\nhttps://android.googlesource.com/platform/frameworks/volley/\nCopyright &#169; 2011 The Android Open Source Project\n\nApache Commons Lang\nhttp://commons.apache.org/proper/commons-lang/\nCopyright &#169; 2001–2013 The Apache Software Foundation. All Rights Reserved.</string>
+    <string name="request_email">kyuuki.japan+rensou@gmail.com</string>
+    <string name="request_subject">【しりとりげーむ】 お問い合わせ</string>
+    <string name="request_text">------\nアプリバージョン: %1$s\nAndroid バージョン: %2$s\n機種名: %3$s\n------\n\n</string>
+    <string name="version">バージョン</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- http://qiita.com/konifar/items/68f196dc7acacfcf40cf -->
+    <!-- Based on http://www.google.com/design/spec/style/color.html -->
+
+    <!-- Theme & Accent -->
+    <color name="theme300">#90ee90</color>
+    <color name="theme500">#4caf50</color>
+    <color name="accent500">#1E88E5</color>
+
+    <!-- Greyscales -->
+    <color name="grey200">#EEEEEE</color>
+    <color name="grey600">#757575</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+</resources>

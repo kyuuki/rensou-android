@@ -54,7 +54,12 @@ public class RensouArrayAdapter extends ArrayAdapter<Rensou> {
         if (view == null) {
             view = mInflater.inflate(R.layout.row_rensou, null);
             holder = new ViewHolder();
-            holder.rowRensouLayout   = (RelativeLayout) view.findViewById(R.id.rowRensouLayout);
+
+            // 連想げーむスペシャル (汚いけど、まぁしょうがないか)
+            // 連想げーむ以外は LinerLayout で作る
+            if (view.findViewById(R.id.rowRensouLayout) instanceof RelativeLayout) {
+                holder.rowRensouLayout = (RelativeLayout) view.findViewById(R.id.rowRensouLayout);
+            }
             holder.dateTimeText      = (TextView) view.findViewById(R.id.dateTimeText);
             holder.rensouText        = (TextView) view.findViewById(R.id.rensouText);
             holder.spamImage         = (ImageView) view.findViewById(R.id.spamImage);
@@ -86,13 +91,19 @@ public class RensouArrayAdapter extends ArrayAdapter<Rensou> {
         int top    = (int) (density * 10);
         int right  = (int) (density * 40);
         int bottom = (int) (density * 15);
-        if (position % 2 == 0) {
-            holder.rowRensouLayout.setBackgroundResource(R.drawable.rensou_cell_bg);
-            holder.rowRensouLayout.setPadding(left, top, right, bottom);
+
+        // 連想げーむスペシャル (汚いけど、まぁしょうがないか)
+        if (getContext().getString(R.string.app_id).equals("1")) {
+            if (position % 2 == 0) {
+                holder.rowRensouLayout.setBackgroundResource(R.drawable.rensou_cell_bg);
+                holder.rowRensouLayout.setPadding(left, top, right, bottom);
+            } else {
+                holder.rowRensouLayout.setBackgroundResource(R.drawable.rensou_cell_bg2);
+                holder.rowRensouLayout.setPadding(left + (int) (density * 10), top, right
+                        - (int) (density * 10), bottom);  // 上の画像が左に吹き出しが付くので通常より右に移動
+            }
         } else {
-            holder.rowRensouLayout.setBackgroundResource(R.drawable.rensou_cell_bg2);
-            holder.rowRensouLayout.setPadding(left + (int) (density * 10), top, right
-                    - (int) (density * 10), bottom);  // 上の画像が左に吹き出しが付くので通常より右に移動
+            //holder.rowRensouLayout.setPadding(left, top, right, bottom);
         }
         
         return view;
@@ -102,7 +113,12 @@ public class RensouArrayAdapter extends ArrayAdapter<Rensou> {
     // - オブジェクトで使っているのは mRequestQueue だけ
     private void updateRensouView(final Context context, final ViewHolder holder, final Rensou rensou) {
         // 連想結果表示テキスト
-        holder.rensouText.setText(Html.fromHtml(RensouUtils.rensouToHtml(rensou, context)));
+        // 連想げーむスペシャル (汚いけど、まぁしょうがないか)
+        if (getContext().getString(R.string.app_id).equals("1")) {
+            holder.rensouText.setText(Html.fromHtml(RensouUtils.rensouToHtml(rensou, context)));
+        } else {
+            holder.rensouText.setText(rensou.getKeyword());
+        }
 
         // 投稿日付
         if (rensou.getCreatedAt() != null) {
@@ -113,6 +129,7 @@ public class RensouArrayAdapter extends ArrayAdapter<Rensou> {
 
         // いいね！状態
         MyLikes likes = MyLikes.getInstance(context);
+        // TODO: 将来的には Button に変えてアプリごとに変更したい (shape を使えるようにしたい)
         if (likes.isLike(rensou.getId())) {
             holder.likeImage.setImageResource(R.drawable.button_like_on);
         } else {
@@ -121,14 +138,14 @@ public class RensouArrayAdapter extends ArrayAdapter<Rensou> {
 
         // いいね！数
         holder.favoriteCountText.setText(context.getString(R.string.list_rensou_like_count, rensou.getFavorite()));
-        
+
         // いいね！ボタン
         holder.likeImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 連打対策
                 v.setOnClickListener(null);
-                
+
                 MyLikes likes = MyLikes.getInstance(context);
                 if (likes.isLike(rensou.getId())) {
                     // いいね！取り消し

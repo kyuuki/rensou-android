@@ -1,0 +1,64 @@
+<resources>
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="ActivityTheme">
+    </style>
+
+    <!-- 投稿画面 -->
+    <style name="LatestKeywordLayoutStyle">
+        <item name="android:background">@drawable/bg_latest_keyword_shape</item>
+        <item name="android:layout_margin">40dp</item>
+        <item name="android:layout_width">320dp</item>
+        <item name="android:layout_height">180dp</item>
+    </style>
+
+    <style name="LatestKeywordTextStyle">
+        <item name="android:textColor">@color/theme300</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="PostButtonStyle">
+        <item name="android:background">@drawable/button_submit_shape</item>
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:text">@string/post_rensou_button_post</item>
+    </style>
+
+    <!-- 連想一覧画面 -->
+    <style name="RowRensouLayoutStyle">
+        <item name="android:background">@drawable/bg_latest_keyword_shape</item>-->
+        <item name="android:minHeight">80dp</item>
+        <item name="android:layout_height">120dp</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <style name="KeywordTextStyle">
+        <item name="android:textColor">@color/theme300</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="LikeButtonStyle">
+        <item name="android:src">@drawable/button_submit_shape</item>
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:text">@string/list_rensou_like</item>
+    </style>
+
+    <!-- ランキング一覧 -->
+    <style name="RowRankingLayoutStyle">
+        <item name="android:layout_height">120dp</item>
+        <item name="android:minHeight">80dp</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <style name="RankingTextStyle">
+        <item name="android:textColor">@color/theme300</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+</resources>

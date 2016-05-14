@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    <RelativeLayout
+        android:id="@+id/latestKeywordLayout"
+        style="@style/U1Theme.LatestKeywordLayoutStyle"
+        android:layout_centerHorizontal="true" >
+
+        <TextView
+            android:id="@+id/latestKeywordText"
+            style="@style/U1Theme.LatestKeywordTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text=""
+            android:textColor="#ff0000"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/relatedText"
+            style="@style/ClassicalTheme.RelatedTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="60dp"
+            android:layout_marginRight="60dp"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/latestKeywordLayout"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical" >
+
+        <EditText
+            android:id="@+id/postRensouEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:ellipsize="end"
+            android:ems="10"
+            android:hint="@string/post_rensou_hist_input_rensou"
+            android:inputType="text"
+            android:maxLength="13"
+            android:maxLines="1"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/postButton"
+            style="@style/ClassicalTheme.PostButtonStyle"
+            android:layout_marginLeft="5dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

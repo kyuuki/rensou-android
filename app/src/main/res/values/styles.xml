@@ -15,6 +15,7 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowBackground">@color/theme300</item>
     </style>
 
     <!-- iOS compatible theme -->
@@ -78,6 +79,7 @@
         <item name="android:paddingBottom">4dp</item>
     </style>
 
+    <!-- Activity のアニメーション用だったかな？ -->
     <style name="NormalActivityTheme" parent="AppTheme">
         <item name="android:windowAnimationStyle">@style/AnimationRight.Activity</item>
     </style>

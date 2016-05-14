@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Ассоциация игры</string>
+    <string name="action_settings">настройки</string>
+    <string name="action_about">Об Ассоциации игры</string>
+    <string name="activity_result_title">Перед Ассоциацией</string>
+
+    <!-- 連想投稿画面 -->
+    <string name="post_rensou_reading">загрузка &#8230;&#8230;&#8230;</string>
+    <string name="post_rensou_posting">проводка &#8230;&#8230;&#8230;</string>
+    <string name="post_rensou_related">Чем у вас ассоциируется с?</string>
+    <string name="post_rensou_hist_input_rensou">Слово входа, связанного</string>
+    <string name="post_rensou_button_post">пост</string>
+    <string name="post_rensou_error_validate_keyword">Пожалуйста, введите от 1 до 13 символов</string>
+    <string name="post_rensou_error_transaction">Кто-то, возможно, отвечал раньше. Впишите другое слово</string>
+    
+    <!-- 連想一覧画面 -->
+    <string name="list_rensou_related">напоминает вам о</string>
+
+    <!-- 連想げーむについて -->
+    <string name="version">версия</string>
+
+    <!-- 共通エラーメッセージ -->
+    <string name="error_communication">ошибка сети</string>
+</resources>

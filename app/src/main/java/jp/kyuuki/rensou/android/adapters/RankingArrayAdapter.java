@@ -65,7 +65,12 @@ public class RankingArrayAdapter extends ArrayAdapter<Rank> {
             rankImage.setImageResource(rankImageResource[position]);  // 配列のチェックはしない。ここに渡すデータ数と画像数はあわせておくこと前提。
 
             // 連想結果表示テキスト
-            rensouText.setText(Html.fromHtml(RensouUtils.rensouToHtml(rensou, getContext())));
+            // 連想げーむスペシャル (汚いけど、まぁしょうがないか)
+            if (getContext().getString(R.string.app_id).equals("1")) {
+                rensouText.setText(Html.fromHtml(RensouUtils.rensouToHtml(rensou, getContext())));
+            } else {
+                rensouText.setText(Html.fromHtml(rensou.getKeyword()));
+            }
 
             // 投稿日付
             if (rensou.getCreatedAt() != null) {

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_id">1</string>
+
     <!-- 初期データ -->
     <string name="initial_data_url">https://s3-ap-northeast-1.amazonaws.com/kyuuki.jp/rensou.json</string>
 
