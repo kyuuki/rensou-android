@@ -26,12 +26,12 @@
         android:layout_weight="1"
         android:ellipsize="end"
         android:gravity="center_vertical|left"
-        android:maxLines="1"
+        android:maxLines="2"
         android:scrollHorizontally="true"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <LinearLayout
-        android:layout_width="160dp"
+        android:layout_width="120dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
 

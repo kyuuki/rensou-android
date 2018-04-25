@@ -12,7 +12,7 @@
         android:layout_weight="1"
         android:ellipsize="end"
         android:gravity="center_vertical|left"
-        android:maxLines="1"
+        android:maxLines="2"
         android:scrollHorizontally="true"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     <!-- うまくいかない端末もあると思う。http://qiita.com/hackugyo/items/e23ecfda14bdfc672e7c -->

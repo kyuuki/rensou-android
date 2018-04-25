@@ -10,9 +10,9 @@
 
     <!-- GCM -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <permission android:name="jp.kyuuki.rensou.android.development.permission.C2D_MESSAGE"
+    <permission android:name="jp.kyuuki.shiritori.android.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-    <uses-permission android:name="jp.kyuuki.rensou.android.development.permission.C2D_MESSAGE" />
+    <uses-permission android:name="jp.kyuuki.shiritori.android.permission.C2D_MESSAGE" />
 
     <application
         android:name="AnalyticsApplication"

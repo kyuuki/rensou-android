@@ -3,11 +3,12 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
         //classpath 'com.android.tools.build:gradle:1.5.0'
         //classpath 'com.google.gms:google-services:1.5.0'
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:3.1.2'
         classpath 'com.google.gms:google-services:2.0.0'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -17,6 +18,10 @@ buildscript {
 
 allprojects {
     repositories {
+        // https://stackoverflow.com/questions/46972122/could-not-find-com-android-tools-lintlint-gradle-android-studio-3
+        // The order in which you list these repositories matter.
+        google()
+
         jcenter()
         maven {
             // nendSDK

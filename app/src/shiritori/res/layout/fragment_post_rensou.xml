@@ -10,7 +10,8 @@
         android:id="@+id/latestKeywordLayout"
         style="@style/LatestKeywordLayoutStyle"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" >
+        android:layout_centerVertical="true"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/latestKeywordText"
