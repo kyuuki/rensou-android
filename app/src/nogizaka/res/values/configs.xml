@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_id">3</string>
+
+    <!-- AdMob -->
+    <string name="banner_ad_unit_id">ca-app-pub-5396037533357593/1890618595</string>
+</resources>

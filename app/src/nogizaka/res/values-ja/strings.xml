@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">乃木坂 No.1 決定戦</string>
+    <string name="action_ranking">ランキング</string>
+    <string name="action_settings">設定</string>
+    <string name="action_about">アプリ情報</string>
+    <string name="action_license">ライセンス情報</string>
+    <string name="action_request">要望 / バグ報告</string>
+    <string name="activity_result_title">これまでの順位</string>
+    <string name="activity_ranking_title">比較ランキング</string>
+
+    <!-- 連想投稿画面 -->
+    <string name="post_rensou_related">よりカワイイのは。。。</string>
+    <string name="post_rensou_hist_input_rensou">メンバーの名前を入力</string>
+
+    <!-- 連想一覧画面 -->
+    <string name="list_rensou_related">よりカワイイのは</string>
+    <string name="list_rensou_like_count">%1$d 件</string>
+    <string name="list_rensou_like">そだねー</string>
+
+    <string name="how_to_play">遊び方\n\n乃木坂で一番カワイイメンバーを決めるゲームです。\n他の人が投稿したメンバーよりカワイイメンバーを投稿しましょう。</string>
+    <string name="license_infomation">このアプリでは、以下のライブラリを使用しています。\n\nVolley\nhttps://android.googlesource.com/platform/frameworks/volley/\nCopyright &#169; 2011 The Android Open Source Project\n\nApache Commons Lang\nhttp://commons.apache.org/proper/commons-lang/\nCopyright &#169; 2001–2013 The Apache Software Foundation. All Rights Reserved.</string>
+    <string name="request_email">kyuuki.japan+nogizaka46@gmail.com</string>
+    <string name="request_subject">【乃木坂 No.1 決定戦】 お問い合わせ</string>
+    <string name="request_text">------\nアプリバージョン: %1$s\nAndroid バージョン: %2$s\n機種名: %3$s\n------\n\n</string>
+    <string name="version">バージョン</string>
+</resources>

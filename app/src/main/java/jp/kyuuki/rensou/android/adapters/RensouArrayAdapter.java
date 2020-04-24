@@ -114,7 +114,7 @@ public class RensouArrayAdapter extends ArrayAdapter<Rensou> {
     private void updateRensouView(final Context context, final ViewHolder holder, final Rensou rensou) {
         // 連想結果表示テキスト
         // 連想げーむスペシャル (汚いけど、まぁしょうがないか)
-        if (getContext().getString(R.string.app_id).equals("1")) {
+        if (getContext().getString(R.string.app_id).equals("1") || getContext().getString(R.string.app_id).equals("3")) {
             holder.rensouText.setText(Html.fromHtml(RensouUtils.rensouToHtml(rensou, context)));
         } else {
             holder.rensouText.setText(rensou.getKeyword());

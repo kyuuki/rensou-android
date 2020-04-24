@@ -66,7 +66,7 @@ public class RankingArrayAdapter extends ArrayAdapter<Rank> {
 
             // 連想結果表示テキスト
             // 連想げーむスペシャル (汚いけど、まぁしょうがないか)
-            if (getContext().getString(R.string.app_id).equals("1")) {
+            if (getContext().getString(R.string.app_id).equals("1") || getContext().getString(R.string.app_id).equals("3")) {
                 rensouText.setText(Html.fromHtml(RensouUtils.rensouToHtml(rensou, getContext())));
             } else {
                 rensouText.setText(Html.fromHtml(rensou.getKeyword()));

@@ -59,7 +59,7 @@ public class RankingActivity extends BaseActivity {
     @SuppressLint("NewApi")
     private void setDisplayHomeAsUpEnabled(boolean b) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            getActionBar().setDisplayHomeAsUpEnabled(b);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(b);
         }
     }
 }

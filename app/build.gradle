@@ -1,38 +1,49 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 27
     buildToolsVersion '27.0.3'
 
-    flavorDimensions "var"
+    flavorDimensions "var", "env"
 
     defaultConfig {
         applicationId "jp.kyuuki.rensou.android"
         minSdkVersion 9
-        targetSdkVersion 23
-        versionCode 17
-        versionName "1.1.8"
+        targetSdkVersion 27
     }
     productFlavors {
         // 連想げーむ
         development {
-            dimension "var"
-            applicationId 'jp.kyuuki.rensou.android.development'
+            dimension "env"
+            applicationIdSuffix '.development'
         }
         staging {
-            dimension "var"
-            applicationId 'jp.kyuuki.rensou.android.staging'
+            dimension "env"
+            applicationIdSuffix '.staging'
         }
         production {
-            dimension "var"
+            dimension "env"
         }
 
+        // 連想げーむ
+        rensou {
+            dimension "var"
+            versionCode 17
+            versionName "1.1.8"
+        }
         // しりとりげーむ
         shiritori {
             dimension "var"
             applicationId 'jp.kyuuki.shiritori.android'
             versionCode 2
             versionName "1.0.1"
+        }
+        // 乃木坂 No.1 決定戦
+        nogizaka {
+            dimension "var"
+            applicationId 'jp.kyuuki.nogizaka.android'
+            versionCode 1
+            versionName "1.0.0"
         }
     }
     buildTypes {
@@ -51,25 +62,29 @@ android {
     // http://kokufu.blogspot.jp/2014/10/androidstudio-missingtranslation.html
     lintOptions {
         disable 'MissingTranslation'
+        abortOnError false  // なぜか乃木坂リリース時に GradleException
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    //compile 'com.google.android.gms:play-services:8.3.0'
-    //compile 'com.google.android.gms:play-services-analytics:8.4.0'  // 8.3.0 と競合とか言うエラーが出るので 8.3 に。Android Studio 2.0 にあげれば解決するかも
-    compile 'com.google.android.gms:play-services:8.4.0'
-    compile 'com.google.android.gms:play-services-analytics:8.4.0'
-    compile "com.google.android.gms:play-services-gcm:8.4.0"
-    compile 'com.google.android.gms:play-services-ads:8.4.0'
-    compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'commons-io:commons-io:2.4'
-    //compile 'commons-codec:commons-codec:1.10'
-    compile 'com.mcxiaoke.volley:library:1.0.19'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:23.0.0'
+    //implementation 'com.google.android.gms:play-services:8.3.0'
+    //implementation 'com.google.android.gms:play-services-analytics:8.4.0'  // 8.3.0 と競合とか言うエラーが出るので 8.3 に。Android Studio 2.0 にあげれば解決するかも
+    implementation 'com.google.android.gms:play-services:8.4.0'
+    implementation 'com.google.android.gms:play-services-analytics:8.4.0'
+    implementation "com.google.android.gms:play-services-gcm:8.4.0"
+    implementation 'com.google.android.gms:play-services-ads:8.4.0'
+    implementation 'org.apache.commons:commons-lang3:3.4'
+    implementation 'commons-io:commons-io:2.4'
+    //implementation 'commons-codec:commons-codec:1.10'
+    implementation 'com.mcxiaoke.volley:library:1.0.19'
     // nend メディエーション用アダプター
-    //compile 'net.nend.android:nend-adapter:1.2.4'
+    //implementation 'net.nend.android:nend-adapter:1.2.4'
+
+    // ConstraintLayout
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

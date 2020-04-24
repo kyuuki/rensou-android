@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -27,7 +28,7 @@ import com.google.android.gms.analytics.Tracker;
  * 
  * - ライフサイクルの確認用。
  */
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = BaseActivity.class.getName();
 
     Tracker mTracker;
@@ -40,6 +41,11 @@ public abstract class BaseActivity extends FragmentActivity {
         // Obtain the shared Tracker instance.
         AnalyticsApplication application = (AnalyticsApplication) getApplication();
         mTracker = application.getDefaultTracker();
+
+        // AppCompatActivity にしてからアイコンが出なくなった。
+        // 非推奨っぽいのでアイコン表示は辞めようかな。
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setIcon(R.drawable.ic_launcher);
     }
     
     @Override

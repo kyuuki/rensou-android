@@ -89,7 +89,7 @@ public class RensouGcmListenerService extends GcmListenerService {
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(getApplicationContext().getString(R.string.app_name))
                 .setContentText(message)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
