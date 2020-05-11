@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+// Kotlin
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+
 android {
     compileSdkVersion 27
     buildToolsVersion '27.0.3'
@@ -10,6 +14,9 @@ android {
         applicationId "jp.kyuuki.rensou.android"
         minSdkVersion 9
         targetSdkVersion 27
+
+        // https://developer.android.com/studio/build/multidex
+        multiDexEnabled true
     }
     productFlavors {
         // 連想げーむ
@@ -85,6 +92,17 @@ dependencies {
 
     // ConstraintLayout
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // https://developer.android.com/studio/build/multidex
+    implementation 'com.android.support:multidex:1.0.3'
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+// ↓Kotlin で勝手に追加されたけどいる？！
+//repositories {
+//    mavenCentral()
+//}
