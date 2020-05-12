@@ -1,25 +1,25 @@
 apply plugin: 'com.android.application'
 
 // Kotlin
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 29
+    //buildToolsVersion '27.0.3'  // Android Studio 3.0.0 以降は必須ではない
 
     flavorDimensions "var", "env"
 
     defaultConfig {
         applicationId "jp.kyuuki.rensou.android"
         minSdkVersion 9
-        targetSdkVersion 27
+        targetSdkVersion 29
 
         // https://developer.android.com/studio/build/multidex
         multiDexEnabled true
     }
     productFlavors {
-        // 連想げーむ
+        // 環境
         development {
             dimension "env"
             applicationIdSuffix '.development'
@@ -100,9 +100,5 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 }
 
+// 上に移動させるとなぜかエラー
 apply plugin: 'com.google.gms.google-services'
-
-// ↓Kotlin で勝手に追加されたけどいる？！
-//repositories {
-//    mavenCentral()
-//}
