@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:485486127500:android:c56c511d4e023fe2",
         "android_client_info": {
-          "package_name": "jp.kyuuki.rensou.android"
+          "package_name": "jp.kyuuki.rensou.android.development"
         }
       },
       "oauth_client": [

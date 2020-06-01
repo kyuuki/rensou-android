@@ -7,9 +7,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import android.view.MenuItem;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Toast;
@@ -18,8 +18,6 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import org.json.JSONObject;
 
@@ -32,7 +30,7 @@ import jp.kyuuki.rensou.android.components.api.PostUserApi;
 import jp.kyuuki.rensou.android.fragments.DummyFragment;
 import jp.kyuuki.rensou.android.fragments.PostRensouFragment;
 import jp.kyuuki.rensou.android.models.User;
-import jp.kyuuki.rensou.android.services.RegistrationIntentService;
+//import jp.kyuuki.rensou.android.services.RegistrationIntentService;
 
 /**
  * 投稿画面アクティビティ。
@@ -298,8 +296,8 @@ public class MainActivity extends BaseActivity implements InitialData.Callback {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPreferences.getBoolean(Preferences.SENT_TOKEN_TO_SERVER, false) == false) {
             // ユーザー登録完了後に GCM の処理をやりっぱ。成功しても失敗しても気にしない。
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            this.startService(intent);
+            //Intent intent = new Intent(this, RegistrationIntentService.class);
+            //this.startService(intent);
         }
     }
 

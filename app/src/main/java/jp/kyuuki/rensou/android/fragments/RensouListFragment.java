@@ -8,7 +8,7 @@ import jp.kyuuki.rensou.android.commons.Logger;
 import jp.kyuuki.rensou.android.models.Rensou;
 import jp.kyuuki.rensou.android.views.TouchChanger;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;

@@ -2,7 +2,7 @@ package jp.kyuuki.rensou.android.fragments;
 
 import jp.kyuuki.rensou.android.R;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
