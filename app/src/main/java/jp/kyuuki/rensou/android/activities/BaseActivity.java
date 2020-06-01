@@ -1,6 +1,5 @@
 package jp.kyuuki.rensou.android.activities;
 
-import jp.kyuuki.rensou.android.AnalyticsApplication;
 import jp.kyuuki.rensou.android.R;
 import jp.kyuuki.rensou.android.commons.Logger;
 import jp.kyuuki.rensou.android.commons.Utils;
@@ -12,7 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -20,8 +18,6 @@ import android.view.MenuItem;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 /**
  * 全画面共通。
@@ -31,16 +27,10 @@ import com.google.android.gms.analytics.Tracker;
 public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = BaseActivity.class.getName();
 
-    Tracker mTracker;
-
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LoggerV("onCreate()");
-
-        // Obtain the shared Tracker instance.
-        AnalyticsApplication application = (AnalyticsApplication) getApplication();
-        mTracker = application.getDefaultTracker();
 
         // AppCompatActivity にしてからアイコンが出なくなった。
         // 非推奨っぽいのでアイコン表示は辞めようかな。
@@ -52,16 +42,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         LoggerV("onStart()");
-        //EasyTracker.getInstance().activityStart(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         LoggerV("onResume()");
-
-        mTracker.setScreenName(getLogTag());
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         // TODO: AdMob が入っていない Activity を考慮
         // AdMob
