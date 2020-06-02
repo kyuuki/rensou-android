@@ -3,21 +3,27 @@ package jp.kyuuki.rensou.android.activities;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONObject;
 
@@ -30,6 +36,7 @@ import jp.kyuuki.rensou.android.components.api.PostUserApi;
 import jp.kyuuki.rensou.android.fragments.DummyFragment;
 import jp.kyuuki.rensou.android.fragments.PostRensouFragment;
 import jp.kyuuki.rensou.android.models.User;
+import jp.kyuuki.rensou.android.services.RegistrationUtil;
 //import jp.kyuuki.rensou.android.services.RegistrationIntentService;
 
 /**
@@ -298,6 +305,26 @@ public class MainActivity extends BaseActivity implements InitialData.Callback {
             // ユーザー登録完了後に GCM の処理をやりっぱ。成功しても失敗しても気にしない。
             //Intent intent = new Intent(this, RegistrationIntentService.class);
             //this.startService(intent);
+            Logger.d(TAG, "FirebaseInstanceId.getInstance().getInstanceId()");
+            FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                @Override
+                public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                    Logger.d(TAG, "FirebaseInstanceId.getInstance().getInstanceId() onComplete");
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "getInstanceId failed", task.getException());
+                        return;
+                    }
+
+                    // Get new Instance ID token
+                    String token = task.getResult().getToken();
+
+                    // Log and toast
+                    Logger.d(TAG, "task.getResult().getToken() = " + token);
+                    //Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
+
+                    RegistrationUtil.sendRegistrationToServer(token, MainActivity.this);
+                }
+            });
         }
     }
 
