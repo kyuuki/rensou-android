@@ -37,4 +37,8 @@
 
     <!-- 共通エラーメッセージ -->
     <string name="error_communication">通信エラー</string>
+
+    <!-- 通知チャンネル -->
+    <string name="channel_message_name">メッセージ</string>
+    <string name="channel_message_description">受信したメッセージを表示します</string>
 </resources>

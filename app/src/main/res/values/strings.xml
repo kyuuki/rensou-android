@@ -42,4 +42,8 @@
     <!-- 共通文字列 -->
     <string name="blank"></string>
 
+    <!-- 通知チャンネル -->
+    <string name="channel_message_name">Message</string>
+    <string name="channel_message_description">Show receive messages</string>
+
 </resources>
