@@ -45,8 +45,8 @@ android {
         shiritori {
             dimension "var"
             applicationId 'jp.kyuuki.shiritori.android'
-            versionCode 2
-            versionName "1.0.1"
+            versionCode 3
+            versionName "1.1.0"
         }
         // 乃木坂 No.1 決定戦
         nogizaka {
