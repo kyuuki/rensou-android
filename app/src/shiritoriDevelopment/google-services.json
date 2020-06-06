@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "466894287361",
-    "firebase_url": "https://shiritori-d12e8.firebaseio.com",
-    "project_id": "shiritori-d12e8",
-    "storage_bucket": "shiritori-d12e8.appspot.com"
+    "project_number": "485486127500",
+    "firebase_url": "https://rensou-android.firebaseio.com",
+    "project_id": "rensou-android",
+    "storage_bucket": "rensou-android.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:466894287361:android:e31dad5f7e62fce7350600",
+        "mobilesdk_app_id": "1:485486127500:android:c56c511d4e023fe2",
         "android_client_info": {
           "package_name": "jp.kyuuki.shiritori.android.development"
         }
       },
       "oauth_client": [
         {
-          "client_id": "466894287361-pcsddqsa9nj7p1c76d6a3h1p4iofn5u6.apps.googleusercontent.com",
+          "client_id": "485486127500-826t7ha554oi0hn6o2mpcjh0tt4o1poh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD54N3J9vh6_TMISAUQXm9W7HiY3H9Gaqo"
+          "current_key": "AIzaSyAsHKhCdERuPZPEVWAOD7vmz_R7znZq8UI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "466894287361-pcsddqsa9nj7p1c76d6a3h1p4iofn5u6.apps.googleusercontent.com",
+              "client_id": "485486127500-826t7ha554oi0hn6o2mpcjh0tt4o1poh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
