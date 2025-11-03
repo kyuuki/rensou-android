@@ -2,11 +2,12 @@ apply plugin: 'com.android.application'
 
 // Kotlin
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 29
     //buildToolsVersion '27.0.3'  // Android Studio 3.0.0 以降は必須ではない
+    namespace 'jp.kyuuki.rensou.android'
 
     flavorDimensions "var", "env"
 
@@ -73,6 +74,17 @@ android {
     lintOptions {
         disable 'MissingTranslation'
         abortOnError false  // なぜか乃木坂リリース時に GradleException
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlin {
+        compilerOptions {
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
+        }
     }
 }
 

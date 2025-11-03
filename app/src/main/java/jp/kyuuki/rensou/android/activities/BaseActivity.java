@@ -94,15 +94,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         DialogFragment dialog;
         
         Intent intent;
-        
-        switch (item.getItemId()) {
-        case R.id.action_ranking:
+
+        // item.getItemId() を一度変数に入れておく
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.action_ranking) {
             // ランキング画面
             //EasyTracker.getTracker().sendEvent(Analysis.GA_EC_UI_ACTION, Analysis.GA_EA_MENU_RANKING, null, null);
             intent = new Intent(this, RankingActivity.class);
             startActivity(intent);
             return true;
-        case R.id.action_about:
+        } else if (itemId == R.id.action_about) {
             //EasyTracker.getTracker().sendEvent(Analysis.GA_EC_UI_ACTION, Analysis.GA_EA_MENU_ABOUT, null, null);
             // 古いやり方らしい。
 //            AlertDialog.Builder ab = new AlertDialog.Builder(this);
@@ -113,26 +115,26 @@ public abstract class BaseActivity extends AppCompatActivity {
             dialog = new AboutDialogFragment();
             dialog.show(manager, "dialog");
             return true;
-        case R.id.action_license:
+        } else if (itemId == R.id.action_license) {
             dialog = new LicenseInfomationDialogFragment();
             dialog.show(manager, "dialog");
             return true;
-        case R.id.action_request:
+        } else if (itemId == R.id.action_request) {
             intent = new Intent();
             intent.setAction(Intent.ACTION_SENDTO);
             intent.setData(Uri.parse("mailto:" + getString(R.string.request_email)));
             //intent.putExtra(Intent.EXTRA_EMAIL, new String[] {"kyuuki.japan+rensou@gmail.com"});
             intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.request_subject));
-            intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.request_text, 
+            intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.request_text,
                     Utils.getVersionName(this), Build.VERSION.RELEASE, Build.MANUFACTURER + " " + Build.MODEL));
             startActivity(intent);
             return true;
-        case R.id.action_debug:
+        } else if (itemId == R.id.action_debug) {
             Intent i = new Intent(this, AboutActivity.class);
             startActivity(i);
             return true;
         }
-        
+
         return false;
     }
 
