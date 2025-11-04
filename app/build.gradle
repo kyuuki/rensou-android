@@ -39,8 +39,8 @@ android {
         // 連想げーむ
         rensou {
             dimension "var"
-            versionCode 19
-            versionName "1.2.1"
+            versionCode 20
+            versionName "1.2.2"
         }
         // しりとりげーむ
         shiritori {
